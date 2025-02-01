@@ -11,12 +11,14 @@ class game_cache(models.Model):
     game_platform = models.TextField()
     game_genre = models.TextField()
 
-class log(models.Model):  # Precisa estar definido antes de usar como FK
-    date = models.DateTimeField(auto_now_add=True)
-
-class analise(models.Model):
-    log_fk = models.ForeignKey('log', on_delete=models.PROTECT)  # Usando string para referência
+class review(models.Model):
     user_fk = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     text = models.TextField()
     review_date = models.DateTimeField(auto_now_add=True)
+
+
+class log(models.Model):  # Precisa estar definido antes de usar como FK
+    user_fk = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    review_fk = models.ForeignKey(review, on_delete=models.CASCADE)
+    date = models.DateTimeField(auto_now_add=True)
 
