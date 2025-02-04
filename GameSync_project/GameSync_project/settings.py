@@ -130,3 +130,9 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Credenciais do IGDB
+IGDB_CLIENT_ID = config('IGDB_CLIENT_ID')
+IGDB_CLIENT_SECRET = config('IGDB_CLIENT_SECRET')
+IGDB_ACCESS_TOKEN = config('IGDB_ACCESS_TOKEN')
+IGDB_BASE_URL = config('IGDB_BASE_URL')

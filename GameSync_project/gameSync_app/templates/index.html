@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+</head>
+<body>
+    <h2>Jogos mais populares</h2>
+    <ul>
+        {% for game in popular_games %}
+            <li>
+                <img src="{{ game.cover.url|default:'https://via.placeholder.com/90' }}" alt="{{ game.name }}" width="90">
+                <p>{{ game.name }}</p>
+            </li>
+        {% empty %}
+            <p>Nenhum jogo popular encontrado.</p>
+        {% endfor %}
+    </ul>
+</body>
+</html>

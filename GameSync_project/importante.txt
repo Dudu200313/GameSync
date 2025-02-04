@@ -7,7 +7,7 @@ pip install virtualenv
 (se tiver/logo após)
 
 python -m venv venv (no diretório GameSync_project)
-venv\Script\activate (no windows)
+venv\Scripts\activate (no windows)
 pip install -r requirements.txt
 rode o projeto dentro de venv 
 
