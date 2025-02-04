@@ -1,0 +1,20 @@
+comandos para voces rodarem o ambiente virtual 
+
+(se nao tiverem o venv)
+
+pip install virtualenv
+
+(se tiver/logo após)
+
+python -m venv venv (no diretório GameSync_project)
+venv\Script\activate (no windows)
+pip install -r requirements.txt
+rode o projeto dentro de venv 
+
+python manage.py runserver
+
+ATENÇÃO : se for precisar importar ou baixar alguma lib do python
+não se esqueça de gerar outro requirements.txt
+
+
+com o comando: pip freeze > requirements.txt (nao se esqueça de apagar o anterior)
