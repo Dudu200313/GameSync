@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REGISTER</title>
+</head>
+<body>
+    <form method="POST">
+        {% csrf_token %}
+
+        <div class="form-group">
+            {{ CustomUserCreationForm.email.label_tag}}
+            {{ CustomUserCreationForm.email }}
+        </div>
+
+        <div class="form-group">
+            {{ form.username.label_tag}}
+            {{ form.username }}
+        </div>
+        <div class="form-group">
+            {{ form.password1.label_tag}}
+            {{ form.password1 }}
+        </div>
+        <div class="form-group">
+            {{ form.password2.label_tag}}
+            {{ form.password2 }}
+        </div>
+
+        <button type="submit">register</button>
+    </form>
+
+</body>
+
+
+
+
+
+
+
+
+
+
+</html>

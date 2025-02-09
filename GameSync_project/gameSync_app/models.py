@@ -4,6 +4,8 @@ from django.contrib.auth.models import AbstractUser
 class CustomUser(AbstractUser):
     last_name = None
     first_name = None 
+    is_staff = models.BooleanField(default=False)
+    is_superuser = models.BooleanField(default=False)
 
 # Depois organiza esse aqui, isso aqui é história kkkk...
 class game_cache(models.Model):
