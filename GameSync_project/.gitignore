@@ -1,1 +1,4 @@
 .env
+Gamesync_project/__pycache__/
+gameSync_app/__pycache__/
+gameSync_app/migrations/__pycache__/
