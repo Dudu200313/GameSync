@@ -19,8 +19,10 @@ from django.urls import include, path
 
 urlpatterns = [
     path('', include("gameSync_app.urls")),
-   # path('other/', include("gameSync_app.urls")),
+    path('games/', include('gameSync_app.urls')),
+    # path('other/', include("gameSync_app.urls")),
     path('admin/', admin.site.urls),
+    
 ]
 
 #ja q as urls estão dentro da pasta gameSync_app, voce importa o modulo "urls" dentro dele

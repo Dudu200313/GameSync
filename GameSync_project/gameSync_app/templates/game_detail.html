@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ name }}</title>
+</head>
+<body>
+    <h1>{{ name }}</h1>
+    <p>{{ genres }}</p>
+    <p>{{ platforms }}</p>
+    {% if cover_url %}
+        <img src="{{ cover_url }}" alt="{{ name }}">
+    {% endif %}
+    <p><strong>Developed by:</strong> {{ developers }}</p>
+    <p><strong>Release Date:</strong> {{ first_release_date }}</p>
+    <p>{{ storyline }}</p>
+
+    {% if related_games %}
+        <h2>Same series:</h2>
+        <ul>
+            {% for game in related_games %}
+                <li>
+                    {% if game.cover %}
+                        <img src="{{ game.cover.url }}" alt="{{ game.name }}">
+                    {% endif %}
+                    <p>{{ game.name }}</p>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    
+    {% if similar_games %}
+        <h2>Similar games:</h2>
+        <ul>
+            {% for game in similar_games %}
+                <li>
+                    {% if game.cover %}
+                        <img src="{{ game.cover.url }}" alt="{{ game.name }}" width="100">
+                    {% endif %}
+                    <p>{{ game.name }}</p>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</body>
+</html>
