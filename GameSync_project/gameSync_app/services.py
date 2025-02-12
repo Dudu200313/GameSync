@@ -70,7 +70,14 @@ class IGDBAPI:
             response = requests.post(f'{self.base_url}games', headers=self.headers, data=game_details_query)
 
             if response.status_code == 200:
-                return response.json()
+                games = response.json()
+
+                # Corrigindo a URL da imagem para uma qualidade melhor
+                for game in games:
+                    if "cover" in game:
+                        game["cover"]["url"] = game["cover"]["url"].replace("t_thumb", "t_cover_big")  # ou outro tamanho
+
+                return games
             else:
                 print(f"Error fetching game details: {response.status_code} - {response.text}")
                 return None
