@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from .forms import CustomUserCreationForm
 
 def register(request):
@@ -16,6 +16,9 @@ def register(request):
     
 def user_login(request):
     if request.method == "POST":
+        if "logout" in request.POST:
+            logout(request)
+            return HttpResponse("Usuário deslogado com sucesso")
         username = request.POST['username']
         password = request.POST['password']
         user = authenticate(request, username=username, password=password)
