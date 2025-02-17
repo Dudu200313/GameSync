@@ -6,6 +6,10 @@
     <title>{{ name }}</title>
 </head>
 <body>
+    <form action="{% url 'add_to_playlist' game_id=game_id game_name=name %}" method="post">
+        {% csrf_token %}
+        <button type="submit">Adicionar à Playlist</button>
+    </form>
     <h1>{{ name }}</h1>
     <p>{{ genres }}</p>
     <p>{{ platforms }}</p>

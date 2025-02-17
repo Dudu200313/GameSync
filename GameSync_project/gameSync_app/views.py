@@ -1,6 +1,10 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from .services import IGDBAPI
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import redirect, get_object_or_404
+from django.contrib import messages
+from .models import Playlist
 
 def index(request):
     igdb = IGDBAPI()
@@ -21,6 +25,7 @@ def game_detail(request, game_id):
         developers = [company['company']['name'] for company in game.get('involved_companies', []) if company.get('developer')]
 
         context = {
+            'game_id': game.get('id'),
             'name': game.get('name'),
             'storyline': game.get('storyline', 'História não disponível.'),
             'developers': developers[0],
@@ -34,6 +39,28 @@ def game_detail(request, game_id):
         return render(request, 'game_detail.html', context)
     else:
         return render(request, '404.html', status=404)
+
+@login_required
+def add_to_playlist(request, game_id, game_name):
+    user = request.user
+    igdb = IGDBAPI()
+    game = igdb.fetch_game_by_id(game_id)
+
+    # Verifica se o jogo já está na playlist
+    if Playlist.objects.filter(user=user, game_id=game_id).exists():
+        messages.info(request, "Este jogo já está na sua playlist!")
+    else:
+        cover_url = game['cover']['url'].replace('t_thumb', 't_cover_big') if 'cover' in game else None
+
+        Playlist.objects.create(user=user, game_id=game_id, game_name=game_name, cover_url=cover_url)
+        messages.success(request, "Jogo adicionado à sua playlist!")
+
+    return redirect('game_detail', game_id=game_id)  # Redireciona para a página do jogo
+
+@login_required
+def user_playlist(request):
+    playlist = Playlist.objects.filter(user=request.user)
+    return render(request, 'playlist.html', {'playlist': playlist})
 
 def other(request):
     return HttpResponse("other pageeee by ianzera")

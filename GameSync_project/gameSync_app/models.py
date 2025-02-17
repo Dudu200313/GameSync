@@ -18,9 +18,17 @@ class review(models.Model):
     text = models.TextField()
     review_date = models.DateTimeField(auto_now_add=True)
 
-
 class log(models.Model):  # Precisa estar definido antes de usar como FK
     user_fk = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     review_fk = models.ForeignKey(review, on_delete=models.CASCADE)
     date = models.DateTimeField(auto_now_add=True)
 
+class Playlist(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    game_name = models.TextField()
+    game_id = models.IntegerField()  # ID do jogo na API IGDB
+    cover_url = models.URLField(null=True, blank=True)
+    date_added = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('user', 'game_id')  # Evita duplicatas
