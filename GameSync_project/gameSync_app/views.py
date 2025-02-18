@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, get_object_or_404
 from django.contrib import messages
 from .models import Playlist
+from .services_itad import ITADAPI
 
 def index(request):
     igdb = IGDBAPI()
@@ -17,7 +18,9 @@ def index(request):
 
 def game_detail(request, game_id):
     igdb = IGDBAPI()
+    itad = ITADAPI()
     game = igdb.fetch_game_by_id(game_id)
+    itad_price = itad.pick_price(game['name'])
 
     if game:
         genres = [genre['name'] for genre in game.get('genres', [])]
@@ -35,6 +38,7 @@ def game_detail(request, game_id):
             'similar_games': game.get('similar_games', []),
             'genres': genres,
             'platforms': platforms,
+            'itad_price' : itad_price,
         }
         return render(request, 'game_detail.html', context)
     else:
