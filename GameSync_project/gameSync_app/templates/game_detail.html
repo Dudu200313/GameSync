@@ -1,51 +1,77 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ name }}</title>
-</head>
-<body>
-    <form action="{% url 'add_to_playlist' game_id=game_id game_name=name %}" method="post">
-        {% csrf_token %}
-        <button type="submit">Adicionar à Playlist</button>
-    </form>
-    <h1>{{ name }}</h1>
-    <p>{{ genres }}</p>
-    <p>{{ platforms }}</p>
-    {% if cover_url %}
-        <img src="{{ cover_url }}" alt="{{ name }}">
-    {% endif %}
-    <p><strong>Developed by:</strong> {{ developers }}</p>
-    <p><strong>Release Date:</strong> {{ first_release_date }}</p>
-    <p>{{ storyline }}</p>
 
-    {% if related_games %}
+    {% load static %}
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="{% static 'GameSync_app/css/game-detail.css' %}" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+
+</head>
+
+<body>
+    <div class="content-wrapper">
+        <div class="game-layout">
+            <div class="game-cover">
+                {% if cover_url %}
+                <img src="{{ cover_url }}" alt="{{ name }}" class="main-cover">
+                {% endif %}
+            </div>
+
+            <div class="game-info">
+                <h1>{{ name }}</h1>
+                <p class="game-info-details">{{ developers }}, {{ first_release_date }}</p>
+                <div class="genres">
+                    <p>{{ genres }}</p>
+                </div>
+                <p class="storyline">{{ storyline }}</p>
+                <div class="buttons">
+                    <button class="btn-favorite">
+                        <i class="fas fa-star"></i> Favoritar
+                    </button>
+                    <button class="btn-notify">
+                        <i class="fas fa-bell"></i> Notificar
+                    </button>
+                    <form action="{% url 'add_to_playlist' game_id=game_id game_name=name %}" method="post">
+                        {% csrf_token %}
+                        <button class="btn-favorite" type="submit">
+                            <i class="fas fa-plus"></i>Adicionar à Playlist
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        {% if related_games %}
         <h2>Same series:</h2>
-        <ul>
+        <div class="game-images">
             {% for game in related_games %}
-                <li>
-                    {% if game.cover %}
-                        <img src="{{ game.cover.url }}" alt="{{ game.name }}">
-                    {% endif %}
-                    <p>{{ game.name }}</p>
-                </li>
+            {% if game.cover %}
+            <div class="game-item">
+                <img src="{{ game.cover.url }}" alt="{{ game.name }}">
+            </div>
+            {% endif %}
             {% endfor %}
-        </ul>
-    {% endif %}
-    
-    {% if similar_games %}
+        </div>
+        {% endif %}
+
+        {% if similar_games %}
         <h2>Similar games:</h2>
-        <ul>
+        <div class="game-images">
             {% for game in similar_games %}
-                <li>
-                    {% if game.cover %}
-                        <img src="{{ game.cover.url }}" alt="{{ game.name }}" width="100">
-                    {% endif %}
-                    <p>{{ game.name }}</p>
-                </li>
+            {% if game.cover %}
+            <div class="game-item">
+                <img src="{{ game.cover.url }}" alt="{{ game.name }}" width="100">
+            </div>
+            {% endif %}
             {% endfor %}
-        </ul>
-    {% endif %}
+        </div>
+        {% endif %}
+    </div>
 </body>
+
 </html>

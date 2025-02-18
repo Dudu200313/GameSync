@@ -1,93 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Gamesync - Homepage</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 
-    <style>
-        body {
-            background-color: #313438;
-            color: #ffffff;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            min-height: 100vh;
-            padding-top: 50px;
-        }
-        .container {
-            text-align: center;
-            max-width: 1200px;
-        }
-        h2 {
-            margin: 20px 0 30px 0;
-            font-size: 36px;
-            font-weight: bold;
-            text-align: left;
-        }
-        .game-item {
-            text-align: center;
-            margin-bottom: 30px;
-            position: relative;
-        }
-        .game-item img {
-            width: 160px;
-            height: 200px;
-            object-fit: cover;
-        }
-        .game-name {
-            background-color: #1C1F24;
-            color: #fff;
-            padding: 5px;
-            font-size: 16px;
-            font-weight: bold;
-            width: 160px;
-            margin: 0 auto;
-            border-radius: 0 0 10px 10px;
-            white-space: nowrap; 
-            overflow: hidden; 
-            text-overflow: ellipsis;
-        }
-        .game-price {
-            font-size: 14px;
-            color: #ffd700;
-            font-weight: normal;
-            margin-top: 5px;
-        }
-    </style>
-</head>
+    {% load static %}
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="{% static 'GameSync_app/css/index.css' %}" />
+  </head>
 
-<body>
+  <body>
     <div class="container">
-        <h2>Jogos mais populares</h2>
-        <div class="row">
-            {% for game in popular_games %}
-                <div class="col-2 game-item">
-                    <img src="{{ game.cover.url|default:'https://via.placeholder.com/90' }}" alt="{{ game.name }}">
-                    <div class="game-name">{{ game.name }}
-                        <p class="game-price">USD $00</p>
-                    </div>
-                </div>
-            {% empty %}
-                <p>Nenhum jogo popular encontrado.</p>
-            {% endfor %}
+      <h2>Jogos mais populares</h2>
+      <div class="row">
+        {% for game in popular_games %}
+        <div class="col-2 game-item">
+          <img
+            src="{{ game.cover.url|default:'https://via.placeholder.com/90' }}"
+            alt="{{ game.name }}"
+          />
+          <div class="game-name">
+            {{ game.name }}
+            <p class="game-price">USD $00</p>
+          </div>
         </div>
+        {% empty %}
+        <p>Nenhum jogo popular encontrado.</p>
+        {% endfor %}
+      </div>
 
-        <h2>Mais vendidos</h2>
-        <div class="row">
-            {% for game in popular_games %}
-                <div class="col-2 game-item">
-                    <img src="{{ game.cover.url|default:'https://via.placeholder.com/90' }}" alt="{{ game.name }}">
-                    <div class="game-name">{{ game.name }}
-                        <p class="game-price">USD $00</p>
-                    </div>
-                </div>
-            {% empty %}
-                <p>Nenhum jogo popular encontrado.</p>
-            {% endfor %}
+      <h2>Mais vendidos</h2>
+      <div class="row">
+        {% for game in popular_games %}
+        <div class="col-2 game-item">
+          <img
+            src="{{ game.cover.url|default:'https://via.placeholder.com/90' }}"
+            alt="{{ game.name }}"
+          />
+          <div class="game-name">
+            {{ game.name }}
+            <p class="game-price">USD $00</p>
+          </div>
         </div>
+        {% empty %}
+        <p>Nenhum jogo popular encontrado.</p>
+        {% endfor %}
+      </div>
     </div>
-
-</body>
+  </body>
 </html>
