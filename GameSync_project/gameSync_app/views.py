@@ -68,4 +68,9 @@ def user_playlist(request):
 
 def other(request):
     return HttpResponse("other pageeee by ianzera")
+
+@login_required
+def tela_usuario(request):
+    tela_usuario = user=request.user
+    return render(request, 'tela_usuario.html', {'tela_usuario': tela_usuario})
 # Create your views here.

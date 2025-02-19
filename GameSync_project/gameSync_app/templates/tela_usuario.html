@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tela de usuário</title>
+    <style>
+        body {
+            background-color: #313438;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+        }
+
+        .profile-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Centraliza na horizontal */
+            margin-top: 100px;
+            gap: 30px; /* Espaçamento entre user-container e tab */
+        }
+
+        .user {
+            display: flex;
+            align-items: center;
+            gap: 35px;
+        }
+
+        img {
+            width: 70px;
+            height: 70px;
+            background-color: #ffffff;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .button {
+            padding: 6px 11px;
+            border: none;
+            background-color: #6d2e9c;
+            color: white;
+            cursor: pointer;
+        }
+
+        .username-button {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+        }
+
+        .tab {
+            display: flex;
+            flex-wrap: wrap; /* Permite quebrar para nova linha se necessário */
+            justify-content: center; /* Centraliza os botões */
+            gap: 10px; /* Espaço entre os botões */
+            border: 1px solid #3f3e3e;
+            padding: 10px;
+            width: 100%;
+            max-width: 900px;
+            border-radius: 10px;
+        }
+
+        .tab button {
+            background-color: #313438;
+            border: none;
+            cursor: pointer;
+            padding: 10px 14px;
+            font-size: 15px;
+            color: white;
+            transition: background-color 0.3s;
+        }
+
+        .tab button:hover {
+            background-color: #6d2e9c;
+        }
+    </style>
+</head>
+<body>
+    <div class="profile-container">
+        <div class="user">
+            <img src="https://imgs.search.brave.com/hmzEHqliCnHlzTg_zl9RMisHrboHHK2ABh7W5TEujlQ/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9pbWFn/ZXMudmV4ZWxzLmNv/bS9tZWRpYS91c2Vy/cy8zLzEzNzA0OC9p/c29sYXRlZC9wcmV2/aWV3LzY0MzcwYTRh/MWMwNGEyYmFkZTMx/ZTFkNDYzNzYyNzBi/LWljb25lLWRlLXRy/YWNvLWRhLXBlc3Nv/YS1kby11c3Vhcmlv/LnBuZw" alt="usuário">
+            <div class="username-button">
+                <span>{{user.username}}</span>
+                <button class="button">EDIT PROFILE</button>
+            </div>
+        </div>
+
+        <div class="tab">
+            <button class="tablinks">Profile</button>
+            <button class="tablinks">Activity</button>
+            <button class="tablinks">Films</button>
+            <button class="tablinks">Diary</button>
+            <button class="tablinks">Reviews</button>
+            <button class="tablinks">Watchlist</button>
+            <button class="tablinks">Lists</button>
+            <button class="tablinks">Likes</button>
+            <button class="tablinks">Tags</button>
+            <button class="tablinks">Network</button>
+        </div>
+    </div>
+</body>
+</html>
