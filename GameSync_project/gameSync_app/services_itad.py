@@ -44,6 +44,9 @@ class ITADAPI:
                 'details': response.text
             }
         
+   # def beautify_shop(shoped):
+
+         
 
     def pick_price(self,game_name):
         url = f'{self.baseUrl}/games/prices/v3?key={self.apiKey}'
@@ -61,7 +64,18 @@ class ITADAPI:
         )  
 
         if response.status_code == 200:
-            return response.json()
+            get_response = response.json()
+            
+            filtering_deals = []
+            for i in get_response:
+                filtering_deals.append(i['deals'])
+
+            filtering_shops = []
+            for i in filtering_deals:
+                for j in i:
+                    filtering_shops.append(j['shop'])
+                    filtering_shops.append(j['price'])
+            return filtering_shops
             
         else:
             return {

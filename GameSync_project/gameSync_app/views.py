@@ -19,9 +19,10 @@ def index(request):
 def game_detail(request, game_id):
     igdb = IGDBAPI()
     itad = ITADAPI()
-    game = igdb.fetch_game_by_id(game_id)
-    itad_price = itad.pick_price(game['name'])
 
+    game = igdb.fetch_game_by_id(game_id)
+    itad_price = itad.pick_price(game['name'])    
+    
     if game:
         genres = [genre['name'] for genre in game.get('genres', [])]
         platforms = [platform['name'] for platform in game.get('platforms', [])]
