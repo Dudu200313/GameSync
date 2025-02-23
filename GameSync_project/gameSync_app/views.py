@@ -31,7 +31,7 @@ def game_detail(request, game_id):
         context = {
             'game_id': game.get('id'),
             'name': game.get('name'),
-            'storyline': game.get('storyline', 'História não disponível.'),
+            'summary': game.get('summary', 'História não disponível.'),
             'developers': developers[0],
             'first_release_date': game.get('first_release_date', [{'date': 'Data desconhecida'}]),
             'cover_url': game['cover']['url'].replace('t_thumb', 't_cover_big') if 'cover' in game else None,

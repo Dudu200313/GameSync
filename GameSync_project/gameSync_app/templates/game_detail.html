@@ -25,11 +25,15 @@
             <div class="game-info">
                 <h1>{{ name }}</h1>
                 <p class="game-info-details">{{ developers }}, {{ first_release_date }}</p>
+                {% for genre in genres %}
                 <div class="genres">
-                    <p>{{ genres }}</p>
+                    {{ genre }}
+                </div>
+                {% endfor %}
+                <div class="genres">
                     <p>{{ itad_price }}</p>
                 </div>
-                <p class="storyline">{{ storyline }}</p>
+                <p class="summary">{{ summary }}</p>
                 <div class="buttons">
                     <button class="btn-favorite">
                         <i class="fas fa-star"></i> Favoritar
@@ -46,6 +50,13 @@
                 </div>
             </div>
         </div>
+
+        <h2>Platforms</h2>
+        {% for platform in platforms %}
+        <p>
+            {{ platform }}
+        </p>
+        {% endfor %}
 
         {% if related_games %}
         <h2>Same series:</h2>

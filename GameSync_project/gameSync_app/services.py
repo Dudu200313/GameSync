@@ -15,7 +15,7 @@ class IGDBAPI:
         query = f'''
             fields 
                 name, 
-                storyline, 
+                summary, 
                 first_release_date, 
                 cover.url, 
                 collections, 
@@ -36,24 +36,38 @@ class IGDBAPI:
 
                 game['first_release_date'] = datetime.fromtimestamp(game['first_release_date'], timezone.utc).strftime('%d/%m/%y')
 
-                # Buscar detalhes dos jogos similares, se houver
+                # Ajustar a URL da capa principal para formato pôster
+                if "cover" in game and "url" in game["cover"]:
+                    game["cover"]["url"] = game["cover"]["url"].replace("t_thumb", "t_1080p")
+
+                # Buscar detalhes dos jogos similares e ajustar imagens
                 if 'similar_games' in game and game['similar_games']:
-                    similar_game_ids = [str(similar_game['id']) for similar_game in game['similar_games'] if isinstance(similar_game, dict) and 'id' in similar_game]
-
-                    if similar_game_ids:  # Só faz a query se houver IDs válidos
-                        similar_games_query = f'fields name, cover.url; where id = ({",".join(similar_game_ids)});'
-                        similar_games_response = requests.post(url, headers=self.headers, data=similar_games_query)
-
-                        if similar_games_response.status_code == 200:
-                            game['similar_games'] = similar_games_response.json()
-                        else:
-                            game['similar_games'] = []
-                    else:
-                        game['similar_games'] = []
+                    game['similar_games'] = game['similar_games']
+                    for similar_game in game['similar_games']:
+                        if "cover" in similar_game and "url" in similar_game["cover"]:
+                            similar_game["cover"]["url"] = similar_game["cover"]["url"].replace("t_thumb", "t_cover_big")
 
                 return game
         else:
             print(f"Error: {response.status_code} - {response.text}")
+            return None
+
+    def fetch_games_by_series(self, series_id, limit=3):
+        url = f'{self.base_url}games'
+        query = f'fields name, cover.url; limit {limit}; where collections = {series_id};'
+        response = requests.post(url, headers=self.headers, data=query)
+
+        if response.status_code == 200:
+            games = response.json()
+
+            # Ajustar todas as capas para formato pôster
+            for game in games:
+                if "cover" in game and "url" in game["cover"]:
+                    game["cover"]["url"] = game["cover"]["url"].replace("t_thumb", "t_cover_big")
+
+            return games
+        else:
+            print(f"Error fetching games by series: {response.status_code} - {response.text}")
             return None
     
     def fetch_most_popular_games(self, limit=10):
@@ -84,14 +98,3 @@ class IGDBAPI:
         else:
             print(f"Error fetching popular games: {response.status_code} - {response.text}")
             return None
-    
-    def fetch_games_by_series(self, series_id):
-            url = f'{self.base_url}games'
-            query = f'fields name, cover.url; where collections = {series_id};'
-            response = requests.post(url, headers=self.headers, data=query)
-
-            if response.status_code == 200:
-                return response.json()
-            else:
-                print(f"Error fetching games by series: {response.status_code} - {response.text}")
-                return None
