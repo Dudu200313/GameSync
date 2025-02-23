@@ -34,7 +34,7 @@ class IGDBAPI:
             if game_data:
                 game = game_data[0]
 
-                game['first_release_date'] = datetime.fromtimestamp(game['first_release_date'], timezone.utc).strftime('%d/%m/%y')
+                game['first_release_date'] = datetime.fromtimestamp(game['first_release_date'], timezone.utc).strftime('%Y')
 
                 # Ajustar a URL da capa principal para formato pôster
                 if "cover" in game and "url" in game["cover"]:

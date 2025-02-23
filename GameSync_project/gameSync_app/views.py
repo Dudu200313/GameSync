@@ -2,10 +2,11 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from .services import IGDBAPI
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import redirect, get_object_or_404
+from django.shortcuts import redirect
 from django.contrib import messages
-from .models import Playlist
+from .models import Playlist, Review
 from .services_itad import ITADAPI
+from .forms import ReviewForm
 
 def index(request):
     igdb = IGDBAPI()
@@ -21,8 +22,19 @@ def game_detail(request, game_id):
     itad = ITADAPI()
 
     game = igdb.fetch_game_by_id(game_id)
-    itad_price = itad.pick_price(game['name'])    
+    itad_price = itad.pick_price(game['name'])
+    reviews = Review.objects.filter(game_id=game_id)
+    form = ReviewForm()
     
+    if request.method == 'POST':
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            review = form.save(commit=False)
+            review.user = request.user
+            review.game_id = game_id
+            review.save()
+            return redirect('game_detail', game_id=game_id)
+
     if game:
         genres = [genre['name'] for genre in game.get('genres', [])]
         platforms = [platform['name'] for platform in game.get('platforms', [])]
@@ -40,6 +52,8 @@ def game_detail(request, game_id):
             'genres': genres,
             'platforms': platforms,
             'itad_price' : itad_price,
+            'reviews': reviews,
+            'form': form,
         }
         return render(request, 'game_detail.html', context)
     else:

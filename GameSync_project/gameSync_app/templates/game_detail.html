@@ -84,6 +84,30 @@
         </div>
         {% endif %}
     </div>
+
+    {% if user.is_authenticated %}
+    <h2>Deixe sua Review</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Enviar</button>
+    </form>
+    {% else %}
+    <p><a href="{% url 'login' %}">Faça login</a> para deixar uma review.</p>
+    {% endif %}
+
+    <br>
+
+    <h2>Reviews</h2>
+    {% for review in reviews %}
+    <div class="review">
+        <p><strong>{{ review.user.username }}</strong></p>
+        <p>⭐ {{ review.rating }}/5</p>
+        <p>{{ review.text }}</p>
+    </div>
+    {% empty %}
+    <p>Sem reviews ainda. Seja o primeiro a avaliar!</p>
+    {% endfor %}
 </body>
 
 </html>

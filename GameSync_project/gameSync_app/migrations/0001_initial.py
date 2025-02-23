@@ -54,9 +54,11 @@ class Migration(migrations.Migration):
             name='review',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('game_id', models.IntegerField()),
                 ('text', models.TextField()),
+                ('rating', models.FloatField(choices=[(x * 0.5, str(x * 0.5)) for x in range(1, 11)])),
                 ('review_date', models.DateTimeField(auto_now_add=True)),
-                ('user_fk', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],
         ),
         migrations.CreateModel(
