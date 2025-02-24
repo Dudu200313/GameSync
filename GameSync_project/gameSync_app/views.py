@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
 from .services import IGDBAPI
 from django.contrib.auth.decorators import login_required
@@ -6,7 +6,7 @@ from django.shortcuts import redirect
 from django.contrib import messages
 from .models import Playlist, Review
 from .services_itad import ITADAPI
-from .forms import ReviewForm
+from .forms import ReviewForm, CustomUser
 
 def index(request):
     igdb = IGDBAPI()
@@ -85,7 +85,10 @@ def other(request):
     return HttpResponse("other pageeee by ianzera")
 
 @login_required
-def tela_usuario(request):
-    tela_usuario = user=request.user
-    return render(request, 'tela_usuario.html', {'tela_usuario': tela_usuario})
-# Create your views here.
+def tela_usuario(request, user_id=None):
+    if user_id:
+        user = get_object_or_404(CustomUser, id=user_id)
+    else:
+        user = request.user 
+
+    return render(request, 'tela_usuario.html', {'user': user})

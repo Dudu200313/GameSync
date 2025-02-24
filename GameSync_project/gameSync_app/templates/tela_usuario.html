@@ -80,7 +80,9 @@
             <img src="https://imgs.search.brave.com/hmzEHqliCnHlzTg_zl9RMisHrboHHK2ABh7W5TEujlQ/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9pbWFn/ZXMudmV4ZWxzLmNv/bS9tZWRpYS91c2Vy/cy8zLzEzNzA0OC9p/c29sYXRlZC9wcmV2/aWV3LzY0MzcwYTRh/MWMwNGEyYmFkZTMx/ZTFkNDYzNzYyNzBi/LWljb25lLWRlLXRy/YWNvLWRhLXBlc3Nv/YS1kby11c3Vhcmlv/LnBuZw" alt="usuário">
             <div class="username-button">
                 <span>{{user.username}}</span>
-                <button class="button">EDIT PROFILE</button>
+                {% if user == request.user %}
+                    <button class="button">EDIT PROFILE</button>
+                {% endif %}
             </div>
         </div>
 
