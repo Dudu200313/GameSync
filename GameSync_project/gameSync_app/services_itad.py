@@ -56,8 +56,6 @@ class ITADAPI:
                 'deals' : 'true'
         }
 
-       
-
         json_payload = self.get_game_id(game_name)
 
         response = requests.post(
@@ -69,30 +67,43 @@ class ITADAPI:
 
         if response.status_code == 200:
             get_response = response.json()
-            
             filtering_deals = []
 
             for i in get_response:
-                filtering_deals.append(i['deals'])
-                
-            filtering_if_shops = []
-            filtering_shops = []
+                filtering_deals.extend(i['deals'])  
 
-            for i in filtering_deals:
-                for j in i:
-                    filtering_if_shops.append(j['shop'])
-                    filtering_if_shops.append(j['price'])
+            if not filtering_deals:
+                params['deals'] = 'false'
+                response = requests.post(
+                    url = url,
+                    params=params,
+                    json = json_payload,
+                    headers={'Content-Type': 'application/json'} 
+                )
 
-                    if filtering_if_shops(j['shop']) == None or filtering_if_shops(j['price']) == None:
-                        params['deals'] = 'false'
-                        filtering_shops.append(j['shop'])
-                        filtering_shops.append(j['price'])
-                        return filtering_shops
-                    else: 
-                        params['deals'] = 'true'
-                        filtering_shops.append(j['shop'])
-                        filtering_shops.append(j['price'])
-                        return filtering_shops  
+                if response.status_code == 200:
+                    get_response = response.json()
+                    filtering_deals = []
+
+                    for i in get_response:
+                        filtering_deals.extend(i['deals'])
+                        
+            #return filtering_deals
+            filtered_shops = []
+
+            # Loop through the deals and extract shop and price information
+            for i in get_response:
+                if i['deals']:
+                    for j in i['deals']:
+                        if j['shop'] and j['price']:
+                            filtered_shops.append({
+                                'shop': j['shop']['name'],  # Extract shop name
+                                'price': j['price']['amount'],  # Extract price
+                                'currency': j['price']['currency']  # Optionally extract the currency
+                            })
+
+            return filtered_shops
+            
         else:
             return {
                 'error': 'Failed to fetch prices',
