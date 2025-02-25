@@ -21,7 +21,13 @@
                 <img src="{{ cover_url }}" alt="{{ name }}" class="main-cover">
                 {% endif %}
             </div>
-
+            <form method="POST">
+                {% csrf_token %}
+                <select  name="select_country" onchange="this.form.submit()">
+                    <option value="br" {% if selected_country == 'br' %}selected{% endif %}>Brazil</option>
+                    <option value="us" {% if selected_country == 'us' %}selected{% endif %}>United States</option>
+                </select>
+            </form>
             <div class="game-info">
                 <h1>{{ name }}</h1>
                 <p class="game-info-details">{{ developers }}, {{ first_release_date }}</p>

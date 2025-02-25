@@ -48,17 +48,21 @@ class ITADAPI:
 
          
 
-    def pick_price(self,game_name):
+    def pick_price(self,game_name,country):
         url = f'{self.baseUrl}/games/prices/v3?key={self.apiKey}'
 
+        params={'key' : self.apiKey,
+                'country' : country,
+                'deals' : 'true'
+        }
+
+       
+
         json_payload = self.get_game_id(game_name)
-        
+
         response = requests.post(
             url = url,
-            params={'key' : self.apiKey,
-                    'country' : 'br',
-                    'deals' : 'true',      
-            },
+            params=params,
             json = json_payload,
             headers={'Content-Type': 'application/json'} 
         )  
@@ -67,20 +71,32 @@ class ITADAPI:
             get_response = response.json()
             
             filtering_deals = []
+
             for i in get_response:
                 filtering_deals.append(i['deals'])
-
+                
+            filtering_if_shops = []
             filtering_shops = []
+
             for i in filtering_deals:
                 for j in i:
-                    filtering_shops.append(j['shop'])
-                    filtering_shops.append(j['price'])
-            return filtering_shops
-            
+                    filtering_if_shops.append(j['shop'])
+                    filtering_if_shops.append(j['price'])
+
+                    if filtering_if_shops(j['shop']) == None or filtering_if_shops(j['price']) == None:
+                        params['deals'] = 'false'
+                        filtering_shops.append(j['shop'])
+                        filtering_shops.append(j['price'])
+                        return filtering_shops
+                    else: 
+                        params['deals'] = 'true'
+                        filtering_shops.append(j['shop'])
+                        filtering_shops.append(j['price'])
+                        return filtering_shops  
         else:
             return {
                 'error': 'Failed to fetch prices',
                 'status_code': response.status_code,
                 'details': response.text
-            }      
+            }         
 
