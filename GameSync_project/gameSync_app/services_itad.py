@@ -90,18 +90,13 @@ class ITADAPI:
                         
             #return filtering_deals
             filtered_shops = []
-
             # Loop through the deals and extract shop and price information
             for i in get_response:
                 if i['deals']:
                     for j in i['deals']:
                         if j['shop'] and j['price']:
-                            filtered_shops.append({
-                                'shop': j['shop']['name'],  # Extract shop name
-                                'price': j['price']['amount'],  # Extract price
-                                'currency': j['price']['currency']  # Optionally extract the currency
-                            })
-
+                            filtered_shops.extend([j['shop']['name'], j['price']['amount']])
+                            
             return filtered_shops
             
         else:
