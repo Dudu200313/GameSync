@@ -13,6 +13,7 @@ urlpatterns = [
     path('add-to-playlist/<int:game_id>/<str:game_name>/', add_to_playlist, name='add_to_playlist'),
     path('playlist/', views.user_playlist, name='user_playlist'),
     path('tela_usuario/', views.tela_usuario, name='tela_usuario'),
+    path('tela_usuario/<int:user_id>/', views.tela_usuario, name='tela_usuario_other'),
 ]
 
 #as aspas definem a rota / na view, se for fazia vai ser meio que a home
