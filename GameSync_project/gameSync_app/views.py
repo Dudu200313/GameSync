@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
 from .services import IGDBAPI
 from django.contrib.auth.decorators import login_required
@@ -6,7 +6,7 @@ from django.shortcuts import redirect
 from django.contrib import messages
 from .models import Playlist, Review
 from .services_itad import ITADAPI
-from .forms import ReviewForm
+from .forms import ReviewForm, CustomUser
 
 def index(request):
     igdb = IGDBAPI()
@@ -21,8 +21,16 @@ def game_detail(request, game_id):
     igdb = IGDBAPI()
     itad = ITADAPI()
 
+     # Default country (if not selected yet)
+    selected_country = request.session.get('selected_country', 'br')
+
+    if request.method == 'POST' and 'select_country' in request.POST:
+        selected_country = request.POST['select_country']
+        request.session['selected_country'] = selected_country
+
+
     game = igdb.fetch_game_by_id(game_id)
-    itad_price = itad.pick_price(game['name'])
+    itad_price = itad.pick_price(game['name'],selected_country)
     reviews = Review.objects.filter(game_id=game_id)
     form = ReviewForm()
     
@@ -52,6 +60,7 @@ def game_detail(request, game_id):
             'genres': genres,
             'platforms': platforms,
             'itad_price' : itad_price,
+            'selected_country' : selected_country,
             'reviews': reviews,
             'form': form,
         }
@@ -89,3 +98,10 @@ def tela_usuario(request):
     tela_usuario = user=request.user
     return render(request, 'tela_usuario.html', {'tela_usuario': tela_usuario})
 # Create your views here.
+def tela_usuario(request, user_id=None):
+    if user_id:
+        user = get_object_or_404(CustomUser, id=user_id)
+    else:
+        user = request.user 
+
+    return render(request, 'tela_usuario.html', {'user': user})
