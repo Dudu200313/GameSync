@@ -1,7 +1,10 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout, get_user_model
 from .forms import CustomUserCreationForm
+from django.contrib.auth.decorators import login_required
+
+User = get_user_model()
 
 def register(request):
     form = CustomUserCreationForm()
@@ -29,3 +32,15 @@ def user_login(request):
             return render(request, 'login.html', {'error': 'Usuário ou senha inválidos.'})
 
     return render(request, 'login.html')
+
+@login_required
+def follow_unfollow(request, user_id):
+    target_user = get_object_or_404(User, id=user_id)
+    
+    if request.user != target_user:
+        if target_user in request.user.following.all():
+            request.user.following.remove(target_user)  # Deixar de seguir
+        else:
+            request.user.following.add(target_user)  # Seguir
+
+    return redirect('tela_usuario_other', user_id=user_id)

@@ -11,6 +11,11 @@
   </head>
 
   <body>
+    <form action="{% url 'search_results' %}" method="GET" class="mb-4">
+      <input type="text" name="q" class="form-control" placeholder="Buscar jogos..." required />
+      <button type="submit" class="btn btn-primary mt-2">Pesquisar</button>
+    </form>
+    
     <div class="container">
       <h2>Jogos mais populares</h2>
       <div class="row">

@@ -14,6 +14,8 @@ urlpatterns = [
     path('playlist/', views.user_playlist, name='user_playlist'),
     path('tela_usuario/', views.tela_usuario, name='tela_usuario'),
     path('tela_usuario/<int:user_id>/', views.tela_usuario, name='tela_usuario_other'),
+    path('follow/<int:user_id>/', views_user.follow_unfollow, name='follow_unfollow'),
+    path('search/', views.search_results, name='search_results'),
 ]
 
 #as aspas definem a rota / na view, se for fazia vai ser meio que a home

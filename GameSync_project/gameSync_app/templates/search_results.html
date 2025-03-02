@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GameSync - Resultados de Pesquisa</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'GameSync_app/css/index.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h2>Resultados para "{{ query }}"</h2>
+    
+        {% if games %}
+            <div class="row" id="game-list">
+                {% for game in games %}
+                <div class="col-2 game-item">
+                    <img src="{{ game.cover.url|default:'https://via.placeholder.com/90' }}" alt="{{ game.name }}">
+                    <div class="game-name">
+                        <a href="{% url 'game_detail' game.id %}">{{ game.name }}</a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <div id="loading" style="display: none;">Carregando...</div>
+        {% else %}
+            <p>Nenhum jogo encontrado.</p>
+        {% endif %}
+    </div>
+</body>
+</html>

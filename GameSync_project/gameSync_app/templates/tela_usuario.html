@@ -82,8 +82,24 @@
                 <span>{{user.username}}</span>
                 {% if user == request.user %}
                     <button class="button">EDIT PROFILE</button>
+                {% else %}
+                    <form method="POST" action="{% url 'follow_unfollow' user.id %}">
+                        {% csrf_token %}
+                        <button class="button">
+                            {% if request.user in user.followers.all %}
+                                Unfollow
+                            {% else %}
+                                Follow
+                            {% endif %}
+                        </button>
+                    </form>
                 {% endif %}
             </div>
+        </div>
+
+        <div>
+            <p>Followers: {{ user.followers.count }}</p>
+            <p>Following: {{ user.following.count }}</p>
         </div>
 
         <div class="tab">

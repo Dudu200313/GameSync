@@ -17,6 +17,17 @@ def index(request):
     }
     return render(request, 'index.html', context)
 
+def search_results(request):
+    query = request.GET.get('q', '')
+
+    if query:
+        igdb = IGDBAPI()
+        games = igdb.search_games(query)
+    else:
+        games = []
+
+    return render(request, 'search_results.html', {'query': query, 'games': games})
+
 def game_detail(request, game_id):
     igdb = IGDBAPI()
     itad = ITADAPI()

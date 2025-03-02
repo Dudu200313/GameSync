@@ -7,7 +7,8 @@ class CustomUser(AbstractUser):
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
 
-# Depois organiza esse aqui, isso aqui é história kkkk...
+    following = models.ManyToManyField('self', symmetrical=False, related_name='followers')
+
 class game_cache(models.Model):
     game_name = models.TextField()
     game_platform = models.TextField()

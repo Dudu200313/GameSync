@@ -98,3 +98,25 @@ class IGDBAPI:
         else:
             print(f"Error fetching popular games: {response.status_code} - {response.text}")
             return None
+
+    def search_games(self, query, limit=100):
+        url = f'{self.base_url}games'
+        query_body = f'''
+            search "{query}";
+            fields name, cover.url;
+            limit {limit};
+        '''
+        response = requests.post(url, headers=self.headers, data=query_body)
+
+        if response.status_code == 200:
+            games = response.json()
+
+            # Ajustar as imagens das capas
+            for game in games:
+                if "cover" in game and "url" in game["cover"]:
+                    game["cover"]["url"] = game["cover"]["url"].replace("t_thumb", "t_cover_big")
+
+            return games
+        else:
+            print(f"Error fetching search results: {response.status_code} - {response.text}")
+            return []
