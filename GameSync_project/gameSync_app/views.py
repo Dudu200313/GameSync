@@ -63,7 +63,7 @@ def game_detail(request, game_id):
             'game_id': game.get('id'),
             'name': game.get('name'),
             'summary': game.get('summary', 'História não disponível.'),
-            'developers': developers[0],
+            'developers': developers[0] if developers else 'Desenvolvedor não disponível.',
             'first_release_date': game.get('first_release_date', [{'date': 'Data desconhecida'}]),
             'cover_url': game['cover']['url'].replace('t_thumb', 't_cover_big') if 'cover' in game else None,
             'related_games': igdb.fetch_games_by_series(game.get('collections')) if game.get('collections') else [],

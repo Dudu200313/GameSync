@@ -103,7 +103,8 @@ class IGDBAPI:
         url = f'{self.base_url}games'
         query_body = f'''
             search "{query}";
-            fields name, cover.url;
+            fields name, cover.url, first_release_date, summary, category;
+            where category = (0,1,2,4,6,7,8,9,10,11,14);
             limit {limit};
         '''
         response = requests.post(url, headers=self.headers, data=query_body)
@@ -115,6 +116,9 @@ class IGDBAPI:
             for game in games:
                 if "cover" in game and "url" in game["cover"]:
                     game["cover"]["url"] = game["cover"]["url"].replace("t_thumb", "t_cover_big")
+            
+                if 'first_release_date' in game:
+                    game['first_release_date'] = datetime.fromtimestamp(game['first_release_date'], timezone.utc).strftime('%Y')
 
             return games
         else:

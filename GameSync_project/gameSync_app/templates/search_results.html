@@ -5,21 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GameSync - Resultados de Pesquisa</title>
     {% load static %}
-    <link rel="stylesheet" href="{% static 'GameSync_app/css/index.css' %}">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="{% static 'GameSync_app/css/search-results.css' %}">
 </head>
 <body>
     <div class="container">
         <h2>Resultados para "{{ query }}"</h2>
     
         {% if games %}
-            <div class="row" id="game-list">
+            <div id="game-list">
                 {% for game in games %}
-                <div class="col-2 game-item">
-                    <img src="{{ game.cover.url|default:'https://via.placeholder.com/90' }}" alt="{{ game.name }}">
+                <div class="game-item">
+                    <img src="{{ game.cover.url | default:'https://static.displate.com/857x1200/displate/2023-09-06/f3c79263da457bbb583755ac94e4492f_f011ee441d15175d8441d1779e676197.jpg' }}" alt="{{ game.name }}">
                     <div class="game-name">
                         <a href="{% url 'game_detail' game.id %}">{{ game.name }}</a>
-                    </div>
+                        <span class="game-date">{{ game.first_release_date }}</span>
+                        <div class="row">
+                            <div class="game-summary col-12 text-break">{{ game.summary }}</div>
+                        </div>
+                    </div>  
                 </div>
+                <hr>
                 {% endfor %}
             </div>
             <div id="loading" style="display: none;">Carregando...</div>
