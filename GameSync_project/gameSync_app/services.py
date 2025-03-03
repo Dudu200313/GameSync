@@ -19,6 +19,7 @@ class IGDBAPI:
                 first_release_date, 
                 cover.url, 
                 collections, 
+                total_rating,
                 genres.name, 
                 platforms.name, 
                 similar_games.name, 
@@ -34,7 +35,8 @@ class IGDBAPI:
             if game_data:
                 game = game_data[0]
 
-                game['first_release_date'] = datetime.fromtimestamp(game['first_release_date'], timezone.utc).strftime('%Y')
+                if 'first_release_date' in game:
+                    game['first_release_date'] = datetime.fromtimestamp(game['first_release_date'], timezone.utc).strftime('%Y')
 
                 # Ajustar a URL da capa principal para formato pôster
                 if "cover" in game and "url" in game["cover"]:
@@ -52,13 +54,19 @@ class IGDBAPI:
             print(f"Error: {response.status_code} - {response.text}")
             return None
 
-    def fetch_games_by_series(self, series_id, limit=3):
+    def fetch_games_by_series(self, series_id, game_id, limit=4):
         url = f'{self.base_url}games'
-        query = f'fields name, cover.url; limit {limit}; where collections = {series_id};'
+        query = f'fields name, cover.url; limit {limit}; sort total_rating desc; where collections = {series_id};'
         response = requests.post(url, headers=self.headers, data=query)
 
         if response.status_code == 200:
             games = response.json()
+
+            if game_id:
+                games = [game for game in games if game['id'] != game_id]
+
+            if len(games) == 4:
+                games.pop()
 
             # Ajustar todas as capas para formato pôster
             for game in games:
@@ -99,12 +107,12 @@ class IGDBAPI:
             print(f"Error fetching popular games: {response.status_code} - {response.text}")
             return None
 
-    def search_games(self, query, limit=100):
+    def search_games(self, query, limit=500):
         url = f'{self.base_url}games'
         query_body = f'''
             search "{query}";
             fields name, cover.url, first_release_date, summary, category;
-            where category = (0,1,2,4,6,7,8,9,10,11,14);
+            where category = (0,1,2,4,6,8,9,11,14);
             limit {limit};
         '''
         response = requests.post(url, headers=self.headers, data=query_body)

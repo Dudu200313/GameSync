@@ -32,7 +32,7 @@ def game_detail(request, game_id):
     igdb = IGDBAPI()
     itad = ITADAPI()
 
-     # Default country (if not selected yet)
+    # Default country (if not selected yet)
     selected_country = request.session.get('selected_country', 'br')
 
     if request.method == 'POST' and 'select_country' in request.POST:
@@ -63,10 +63,10 @@ def game_detail(request, game_id):
             'game_id': game.get('id'),
             'name': game.get('name'),
             'summary': game.get('summary', 'História não disponível.'),
-            'developers': developers[0] if developers else 'Desenvolvedor não disponível.',
-            'first_release_date': game.get('first_release_date', [{'date': 'Data desconhecida'}]),
+            'developers': developers[0] if developers else 'Desenvolvedor desconhecido',
+            'first_release_date': game.get('first_release_date', 'Ano de lançamento desconhecido'),
             'cover_url': game['cover']['url'].replace('t_thumb', 't_cover_big') if 'cover' in game else None,
-            'related_games': igdb.fetch_games_by_series(game.get('collections')) if game.get('collections') else [],
+            'related_games': igdb.fetch_games_by_series(game.get('collections'), game_id) if game.get('collections') else [],
             'similar_games': game.get('similar_games', []),
             'genres': genres,
             'platforms': platforms,
