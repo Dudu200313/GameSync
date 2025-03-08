@@ -10,14 +10,13 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="{% static 'GameSync_app/css/game-detail.css' %}" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
-
 </head>
 
 <body>
     <div class="content-wrapper">
         <div class="game-layout">
             <div class="game-cover">
-                <img src="{{ cover_url | default:'https://static.displate.com/857x1200/displate/2023-09-06/f3c79263da457bbb583755ac94e4492f_f011ee441d15175d8441d1779e676197.jpg' }}" alt="{{ name }}" class="main-cover">
+                <img src="{{ cover_url | default:'https://static.displate.com/857x1200/displate/2023-09-06/f3c79263da457bbb583755ac94e4492f_f011ee441d15175d8441d1779e676197.jpg' }}" alt="{{ name }}" class="main-cover" loading="lazy">
             </div>
             <form method="POST">
                 {% csrf_token %}
@@ -35,7 +34,11 @@
                 </div>
                 {% endfor %}
                 <div class="genres">
-                    <p>{{ itad_price }}</p>
+                    {% if itad_price %}
+                        <p>Melhor preço: {{ itad_price.price }} - {{ itad_price.shop_name }}</p>
+                    {% else %}
+                        <p>Preço não disponível</p>
+                    {% endif %}
                 </div>
                 <p class="summary">{{ summary }}</p>
                 {% if user.is_authenticated %}
@@ -72,7 +75,7 @@
             {% for game in related_games %}
             {% if game.cover %}
             <div class="game-item">
-                <a href="{% url 'game_detail' game.id %}"><img src="{{ game.cover.url }}" alt="{{ game.name }}"></a>
+                <a href="{% url 'game_detail' game.id %}"><img src="{{ game.cover.url }}" alt="{{ game.name }}" loading="lazy"></a>
             </div>
             {% endif %}
             {% endfor %}
@@ -85,7 +88,7 @@
             {% for game in similar_games %}
             {% if game.cover %}
             <div class="game-item">
-                <a href="{% url 'game_detail' game.id %}"><img src="{{ game.cover.url }}" alt="{{ game.name }}" width="100"></a>
+                <a href="{% url 'game_detail' game.id %}"><img src="{{ game.cover.url }}" alt="{{ game.name }}" width="100" loading="lazy"></a>
             </div>
             {% endif %}
             {% endfor %}

@@ -7,6 +7,7 @@ from django.contrib import messages
 from .models import Playlist, Review
 from .services_itad import ITADAPI
 from .forms import ReviewForm, CustomUser
+from django.core.cache import cache
 
 def index(request):
     igdb = IGDBAPI()
@@ -38,7 +39,6 @@ def game_detail(request, game_id):
     if request.method == 'POST' and 'select_country' in request.POST:
         selected_country = request.POST['select_country']
         request.session['selected_country'] = selected_country
-
 
     game = igdb.fetch_game_by_id(game_id)
     itad_price = itad.pick_price(game['name'],selected_country)
