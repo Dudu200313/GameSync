@@ -1,0 +1,11 @@
+<h2>Minha Owned</h2>
+<ul>
+    {% for game in owned %}
+        <li>
+            {% if game.cover_url %}
+                <img src="{{ game.cover_url }}" alt="{{ game.game_name }}" width="100">
+            {% endif %}
+            {{ game.game_name }}
+        </li>
+    {% endfor %}
+</ul>

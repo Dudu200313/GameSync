@@ -4,7 +4,7 @@ from .services import IGDBAPI
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
 from django.contrib import messages
-from .models import Playlist, Review
+from .models import Playlist, Wishlist, Owned, Review
 from .services_itad import ITADAPI
 from .forms import ReviewForm, CustomUser
 from django.core.cache import cache
@@ -97,9 +97,53 @@ def add_to_playlist(request, game_id, game_name):
     return redirect('game_detail', game_id=game_id)  # Redireciona para a página do jogo
 
 @login_required
+def add_to_wishlist(request, game_id, game_name):
+    user = request.user
+    igdb = IGDBAPI()
+    game = igdb.fetch_game_by_id(game_id)
+
+    # Verifica se o jogo já está na wishlist
+    if Wishlist.objects.filter(user=user, game_id=game_id).exists():
+        messages.info(request, "Este jogo já está na sua wishlist!")
+    else:
+        cover_url = game['cover']['url'].replace('t_thumb', 't_cover_big') if 'cover' in game else None
+
+        Wishlist.objects.create(user=user, game_id=game_id, game_name=game_name, cover_url=cover_url)
+        messages.success(request, "Jogo adicionado à sua wishlist!")
+
+    return redirect('game_detail', game_id=game_id)  # Redireciona para a página do jogo
+
+@login_required
+def add_to_owned(request, game_id, game_name):
+    user = request.user
+    igdb = IGDBAPI()
+    game = igdb.fetch_game_by_id(game_id)
+
+    # Verifica se o jogo já está na owned
+    if Owned.objects.filter(user=user, game_id=game_id).exists():
+        messages.info(request, "Este jogo já está na sua owned!")
+    else:
+        cover_url = game['cover']['url'].replace('t_thumb', 't_cover_big') if 'cover' in game else None
+
+        Owned.objects.create(user=user, game_id=game_id, game_name=game_name, cover_url=cover_url)
+        messages.success(request, "Jogo adicionado à sua owned!")
+
+    return redirect('game_detail', game_id=game_id)  # Redireciona para a página do jogo
+
+@login_required
 def user_playlist(request):
     playlist = Playlist.objects.filter(user=request.user)
     return render(request, 'playlist.html', {'playlist': playlist})
+
+@login_required
+def user_wishlist(request):
+    wishlist = Wishlist.objects.filter(user=request.user)
+    return render(request, 'wishlist.html', {'wishlist': wishlist})
+
+@login_required
+def user_owned(request):
+    owned = Owned.objects.filter(user=request.user)
+    return render(request, 'owned.html', {'owned': owned})
 
 def other(request):
     return HttpResponse("other pageeee by ianzera")

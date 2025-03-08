@@ -55,6 +55,18 @@
                             <i class="fas fa-plus"></i>Adicionar à Playlist
                         </button>
                     </form>
+                    <form action="{% url 'add_to_wishlist' game_id=game_id game_name=name %}" method="post">
+                        {% csrf_token %}
+                        <button class="btn-favorite" type="submit">
+                            <i class="fas fa-plus"></i>Adicionar à Wishlist
+                        </button>
+                    </form>
+                    <form action="{% url 'add_to_owned' game_id=game_id game_name=name %}" method="post">
+                        {% csrf_token %}
+                        <button class="btn-favorite" type="submit">
+                            <i class="fas fa-plus"></i>Adicionar à Owned
+                        </button>
+                    </form>
                 </div>
                 {% else %}
                 <p><a href="{% url 'login' %}">Faça login</a> para deixar uma review.</p>

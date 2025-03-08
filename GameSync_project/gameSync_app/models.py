@@ -35,3 +35,23 @@ class Playlist(models.Model):
 
     class Meta:
         unique_together = ('user', 'game_id')  # Evita duplicatas
+
+class Wishlist(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    game_name = models.TextField()
+    game_id = models.IntegerField()  # ID do jogo na API IGDB
+    cover_url = models.URLField(null=True, blank=True)
+    date_added = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('user', 'game_id')  # Evita duplicatas
+
+class Owned(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    game_name = models.TextField()
+    game_id = models.IntegerField()  # ID do jogo na API IGDB
+    cover_url = models.URLField(null=True, blank=True)
+    date_added = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('user', 'game_id')  # Evita duplicatas
