@@ -3,10 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Welcome Back</title>
+    <title>Bem-vindo de volta</title>
 
     {% load static %}
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
+    <link
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="{% static 'GameSync_app/css/login.css' %}" />
   </head>
 
@@ -27,32 +30,33 @@
         {% csrf_token %}
 
         <div class="mb-3">
-          <label class="form-label text-start d-block">Username:</label>
+          <label class="form-label text-start d-block">Apelido:</label>
           <input
             type="text"
             name="username"
             class="form-control"
-            placeholder="Username here"
+            placeholder="Insira seu Apelido"
             required
           />
         </div>
 
         <div class="mb-3">
-          <label class="form-label text-start d-block">Password:</label>
+          <label class="form-label text-start d-block">Senha:</label>
           <input
             type="password"
             name="password"
             class="form-control"
-            placeholder="Password here"
+            placeholder="Insira sua senha"
             required
           />
         </div>
 
+        <span class="d-block text-left mb-3">Esqueceu a senha?</span>
         <span class="d-block text-center mb-3">
-          <u>Forget the password?</u>
+          Não possui conta? <a href="{% url 'register' %}">Cadastre-se</a>
         </span>
 
-        <button type="submit" class="btn btn-primary w-100">Let me In</button>
+        <button type="submit" class="btn btn-primary w-100">Conectar-se</button>
       </form>
 
       {% if error %}
