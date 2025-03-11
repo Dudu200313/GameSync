@@ -4,9 +4,9 @@ from .services import IGDBAPI
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
 from django.contrib import messages
-from .models import Playlist, Wishlist, Owned, Review
+from .models import Playlist, Wishlist, Owned, Logview
 from .services_itad import ITADAPI
-from .forms import ReviewForm, CustomUser
+from .forms import LogviewForm, CustomUser
 from django.core.cache import cache
 
 def index(request):
@@ -42,16 +42,18 @@ def game_detail(request, game_id):
 
     game = igdb.fetch_game_by_id(game_id)
     itad_price = itad.pick_price(game['name'],selected_country)
-    reviews = Review.objects.filter(game_id=game_id)
-    form = ReviewForm()
+    logviews = Logview.objects.filter(game_id=game_id)
+    form = LogviewForm()
     
     if request.method == 'POST':
-        form = ReviewForm(request.POST)
+        form = LogviewForm(request.POST)
         if form.is_valid():
-            review = form.save(commit=False)
-            review.user = request.user
-            review.game_id = game_id
-            review.save()
+            logview = form.save(commit=False)
+            logview.user = request.user
+            logview.game_id = game_id
+            logview.save()
+            game_name = game.get('name')
+            add_to_playlist(request, game_id, game_name)
             return redirect('game_detail', game_id=game_id)
 
     if game:
@@ -72,7 +74,7 @@ def game_detail(request, game_id):
             'platforms': platforms,
             'itad_price' : itad_price,
             'selected_country' : selected_country,
-            'reviews': reviews,
+            'logviews': logviews,
             'form': form,
         }
         return render(request, 'game_detail.html', context)

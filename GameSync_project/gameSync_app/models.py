@@ -14,17 +14,12 @@ class game_cache(models.Model):
     game_platform = models.TextField()
     game_genre = models.TextField()
 
-class Review(models.Model):
+class Logview(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     game_id = models.IntegerField()
-    text = models.TextField()
-    rating = models.FloatField(choices=[(x * 0.5, str(x * 0.5)) for x in range(1, 11)])
+    text = models.TextField(blank=True, null=True)
+    rating = models.FloatField(choices=[(x * 0.5, str(x * 0.5)) for x in range(1, 11)], blank=True, null=True)
     review_date = models.DateTimeField(auto_now_add=True)
-
-class log(models.Model):  # Precisa estar definido antes de usar como FK
-    user_fk = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-    review_fk = models.ForeignKey(Review, on_delete=models.CASCADE)
-    date = models.DateTimeField(auto_now_add=True)
 
 class Playlist(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
