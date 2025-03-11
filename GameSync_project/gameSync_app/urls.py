@@ -14,6 +14,7 @@ urlpatterns = [
     path('add-to-wishlist/<int:game_id>/<str:game_name>/', add_to_wishlist, name='add_to_wishlist'),
     path('add-to-owned/<int:game_id>/<str:game_name>/', add_to_owned, name='add_to_owned'),
     path('playlist/', views.user_playlist, name='user_playlist'),
+    path('diary/', views.user_diary, name='user_diary'),
     path('wishlist/', views.user_wishlist, name='user_wishlist'),
     path('owned/', views.user_owned, name='user_owned'),
     path('tela_usuario/', views.tela_usuario, name='tela_usuario'),

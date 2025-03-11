@@ -147,6 +147,12 @@ def user_owned(request):
     owned = Owned.objects.filter(user=request.user)
     return render(request, 'owned.html', {'owned': owned})
 
+@login_required
+def user_diary(request):
+    diary = Playlist.objects.filter(user=request.user)
+    return render(request, 'diary.html', {'diary': diary})
+
+
 def other(request):
     return HttpResponse("other pageeee by ianzera")
 

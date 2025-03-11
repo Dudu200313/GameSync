@@ -19,7 +19,7 @@ class Logview(models.Model):
     game_id = models.IntegerField()
     text = models.TextField(blank=True, null=True)
     rating = models.FloatField(choices=[(x * 0.5, str(x * 0.5)) for x in range(1, 11)], blank=True, null=True)
-    review_date = models.DateTimeField(auto_now_add=True)
+    logview_date = models.DateTimeField(auto_now_add=True)
 
 class Playlist(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
