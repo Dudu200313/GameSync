@@ -123,11 +123,13 @@
 
     <h2>Reviews</h2>
     {% for review in logviews %}
+    {% if review.text %}
     <div class="review">
         <p><strong>{{ review.user.username }}</strong></p>
         <p>⭐ {{ review.rating }}/5.0</p>
         <p>{{ review.text }}</p>
     </div>
+    {% endif %}
     {% empty %}
     <p>Sem reviews ainda. Seja o primeiro a avaliar!</p>
     {% endfor %}
