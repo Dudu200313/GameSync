@@ -1,3 +1,28 @@
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        let searchForm = document.getElementById("searchForm");
+        let searchInput = document.getElementById("searchInput");
+
+        if (searchForm && searchInput) {
+            searchForm.addEventListener("submit", function (event) {
+                event.preventDefault();
+            });
+
+            searchInput.addEventListener("input", function () {
+                let filter = this.value.trim().toLowerCase();
+                let gameItems = document.querySelectorAll(".game-item");
+
+                gameItems.forEach((item) => {
+                    let gameName = item.querySelector(".game-name")?.textContent.toLowerCase();
+                    if (gameName) {
+                        item.style.display = gameName.includes(filter) ? "flex" : "none";
+                    }
+                });
+            });
+        }
+    });
+</script>
+
 <body>
     <h2>Minha Playlist</h2>
 
@@ -5,10 +30,9 @@
         <img src="https://imgs.search.brave.com/hmzEHqliCnHlzTg_zl9RMisHrboHHK2ABh7W5TEujlQ/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9pbWFn/ZXMudmV4ZWxzLmNv/bS9tZWRpYS91c2Vy/cy8zLzEzNzA0OC9p/c29sYXRlZC9wcmV2/aWV3LzY0MzcwYTRh/MWMwNGEyYmFkZTMx/ZTFkNDYzNzYyNzBi/LWljb25lLWRlLXRy/YWNvLWRhLXBlc3Nv/YS1kby11c3Vhcmlv/LnBuZw"
             class="imagem" alt="usuário">
         <span>{{user.username}}</span>
-        <input type="text" name="q" class="form-control" placeholder="Buscar jogos..." required />
-        <button class="search-button">
-            <i class="fas fa-search"></i> Buscar
-        </button>
+        <form id="searchForm" class="mb">
+            <input type="text" id="searchInput" name="q" class="form-control" placeholder="Buscar jogos..." required />
+        </form>
     </div>
     <div class="container">
         <ul class="game-list">
@@ -95,47 +119,70 @@
     }
 
     .container {
-    text-align: center;
-    max-width: 1200px;
-    width: 100%;
-    margin-top: 20px;
-}
+        text-align: center;
+        max-width: 1200px;
+        width: 100%;
+        margin-top: 20px;
+    }
 
-.game-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    justify-content: space-between;
-    padding: 0;
-    list-style: none;
-    width: 100%;
-}
+    .game-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: space-between;
+        padding: 0;
+        list-style: none;
+        width: 100%;
+    }
 
-.game-item {
-    width: calc((100% - 60px) / 6); /* Garante 6 itens por linha */
-    text-align: center;
-    margin-bottom: 30px;
-    background-color: #1c1f24;
-    padding-bottom: 5px;
-    border-radius: 10px;
-}
+    .game-item {
+        width: calc((100% - 60px) / 6);
+        /* Garante 6 itens por linha */
+        text-align: center;
+        margin-bottom: 30px;
+        background-color: #1c1f24;
+        padding-bottom: 5px;
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+    }
 
-.game-item img {
-    width: 100%;
-    height: 200px;
-    object-fit: fill;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-}
+    .game-item img {
+        width: 100%;
+        height: 200px;
+        object-fit: fill;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+    }
 
-.game-name {
-    color: #fff;
-    padding: 5px;
-    font-size: 16px;
-    font-weight: bold;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    box-sizing: border-box;
-}
+    .game-name {
+        color: #fff;
+        padding: 5px;
+        font-size: 16px;
+        font-weight: bold;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        box-sizing: border-box;
+    }
+
+    #searchForm {
+        flex-grow: 1;
+        /* Faz o form expandir */
+        display: flex;
+        justify-content: center;
+    }
+
+    .form-control {
+        padding: 8px 12px;
+        border-radius: 5px;
+        width: 100%;
+        /* O input ocupa todo o espaço disponível */
+        max-width: 200px;
+        /* Limite para não ficar gigante */
+        border: 1px solid #ccc;
+        background-color: #fff;
+        color: #000;
+        margin-top: 10px;
+    }
 </style>
