@@ -27,8 +27,15 @@ SECRET_KEY = 'django-insecure-+gn-=^j&m-k84g8tf8gdq5y8-6j@m^d-dp!&dn#ohfl0l2@r-y
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'gamesync.onrender.com',
+    'localhost',
+    '127.0.0.1',
+]
 
+CSRF_TRUSTED_ORIGINS = [
+    'https://gamesync.onrender.com',
+]
 
 # Application definition
 
