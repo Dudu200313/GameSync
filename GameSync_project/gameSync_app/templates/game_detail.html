@@ -28,14 +28,17 @@
             <div class="game-info">
                 <h1>{{ name }}</h1>
                 <p class="game-info-details">{{ developers }}, {{ first_release_date }}</p>
-                {% for genre in genres %}
-                <div class="genres">
-                    {{ genre }}
+                <div>
+                    {% for genre in genres %}
+                        <div class="genres">
+                            {{ genre }}
+                        </div>
+                    {% endfor %}
                 </div>
-                {% endfor %}
-                <div class="genres">
+                
+                <div class="genres-prince">
                     {% if itad_price %}
-                        <p>Melhor preço: {{ itad_price.price }} - {{ itad_price.shop_name }}</p>
+                        Melhor preço: {{ itad_price.price }} - {{ itad_price.shop_name }}
                     {% else %}
                         <p>Preço não disponível</p>
                     {% endif %}
@@ -75,12 +78,16 @@
         </div>
 
         <h2>Platforms</h2>
-        {% for platform in platforms %}
-        <p>
-            {{ platform }}
-        </p>
-        {% endfor %}
-
+        <div>
+            {% for platform in platforms %}
+                <p class="platform-box">
+                    {{ platform }}
+                </p>
+            {% endfor %}
+        </div>
+        
+        <br>
+        <!---- 
         {% if related_games %}
         <h2>Same series:</h2>
         <div class="game-images">
@@ -106,32 +113,60 @@
             {% endfor %}
         </div>
         {% endif %}
-    </div>
+        --->
 
     {% if user.is_authenticated %}
     <h2>Deixe sua Review</h2>
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">Enviar</button>
+        
+        <div class="mb-1">
+            Você recomendaria esse jogo?
+        </div>
+        <div class="btn-group">
+            <button class="btn-review" type="submit"><i class="fas fa-thumbs-up"></i> Sim</button> 
+            <button class="btn-review" type="submit"><i class="fas fa-thumbs-down"></i> Não</button> 
+            <button class="btn-favorite" type="submit">Enviar Review</button>
+        </div>
     </form>
     {% else %}
     <p><a href="{% url 'login' %}">Faça login</a> para deixar uma review.</p>
     {% endif %}
+        
 
-    <br>
+    <hr>
 
     <h2>Reviews</h2>
     {% for review in logviews %}
     {% if review.text %}
-    <div class="review">
-        <p><strong>{{ review.user.username }}</strong></p>
-        <p>⭐ {{ review.rating }}/5.0</p>
-        <p>{{ review.text }}</p>
+    <div class="review-container">
+        <div class="review-image">
+            <img src="{% static 'imgs/user-placeholder.jpg' %}" alt="User" />
+        </div>
+
+        <div class="review-content">
+            <div class="review-header">
+                <strong>{{ review.user.username }}</strong>  
+                <span class="ml-2">⭐ {{ review.rating }}/5.0</span>
+            </div>
+            <div class="review-box">
+                <p>{{ review.text }}</p>
+            </div>
+            <div class="mt-3 mb-3">
+                O que você achou dessa análise?
+                <button class="btn-favorite mt-2">
+                    <i class="fas fa-heart"></i> Gostei
+                </button>
+            </div>
+        </div>
     </div>
     {% endif %}
+
     {% empty %}
     <p>Sem reviews ainda. Seja o primeiro a avaliar!</p>
     {% endfor %}
+
+    </div>
 </body>
 </html>

@@ -23,6 +23,11 @@ h1 {
   margin-bottom: 10px;
 }
 
+hr {
+  border: 1px solid #474A4E;
+  margin: 30px;
+}
+
 .game-layout {
   display: flex;
   justify-content: flex-start;
@@ -56,13 +61,16 @@ h1 {
 }
 
 .genres {
-  background-color: #43484f;
-  color: #ffffff;
+  display: inline-block;
+  background-color: #474A4E;
+  color: white;
   padding: 10px;
-  border-radius: 20px;
-  font-size: 16px;
-  margin-bottom: 15px;
-  max-width: fit-content;
+  border-radius: 10px;
+  font-size: 14px;
+  text-align: center;
+  margin: 0 10px 10px 0;
+  width: 25%;
+  filter: drop-shadow(8px 5px 8px #2c2d30);
 }
 
 .summary {
@@ -105,6 +113,17 @@ h1 {
   font-size: 16px;
 }
 
+.platform-box {
+  background-color: #474A4E;
+  color: white; 
+  padding: 5px 10px;
+  border: 1px solid #1F1F20;
+  border-radius: 5px;
+  margin-right: 5px; 
+  width: 20%;
+  text-align: center ;
+}
+
 .game-images {
   display: flex;
   flex-wrap: wrap;
@@ -116,4 +135,57 @@ h1 {
   width: 100%;
   max-width: 150px;
   object-fit: cover;
+}
+
+.btn-group {
+  display: flex;
+  gap: 10px; 
+}
+
+.btn-review, .btn-favorite {
+  padding: 8px 16px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-review {
+  background-color: #4F5257;
+  color: white;
+}
+
+.btn-review:hover {
+  background-color: #3b3e42;
+}
+
+.review-container {
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+  margin: 20px 0 0 0;
+}
+
+.review-image img {
+  width: 60px; 
+  height: 60px;
+  object-fit: cover;
+}
+
+.review-content {
+  flex: 1;
+}
+
+.review-header {
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 0 10px 0;
+}
+
+.review-box {
+  background-color: #474A4E;
+  padding: 20px;
+  filter: drop-shadow(8px 5px 8px #2c2d30);
+  border-radius: 0px 20px 20px 20px;
+  border: #1F1F20;
 }
