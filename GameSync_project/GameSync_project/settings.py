@@ -25,7 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-+gn-=^j&m-k84g8tf8gdq5y8-6j@m^d-dp!&dn#ohfl0l2@r-y'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DEBUG', 'False') == 'True'
+DEBUG = True
 
 ALLOWED_HOSTS = [
     'gamesync.onrender.com',
