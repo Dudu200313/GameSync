@@ -78,7 +78,7 @@ class IGDBAPI:
             print(f"Error fetching games by series: {response.status_code} - {response.text}")
             return None
     
-    def fetch_most_popular_games(self, limit=10):
+    def fetch_most_popular_games(self, limit=6):
         url = f'{self.base_url}popularity_primitives'
         query = f'fields game_id,value,popularity_type; sort value desc; limit {limit}; where popularity_type = 3;'
         response = requests.post(url, headers=self.headers, data=query)

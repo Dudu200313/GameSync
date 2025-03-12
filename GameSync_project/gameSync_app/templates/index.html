@@ -65,6 +65,36 @@
     </div>
 
     <div class="container">
+      <h2>Atividades recentes dos seus amigos</h2>
+      <div class="row">
+        {% for activity in latest_activities %}
+        <div class="col-2 activity-item">
+          <img
+            src="{{ activity.cover_url|default:'https://via.placeholder.com/90' }}"
+            alt="Capa do jogo"
+          />
+          <div class="activity-info">
+            <div class="activity-name"><p><strong>{{ activity.user.username }}</strong> jogou</p></div>
+            {% if activity.rating %}
+              <p>Avaliação:
+                {% for i in "12345" %}
+                  {% if forloop.counter <= activity.rating %}
+                    <i class="fas fa-star"></i>
+                  {% else %}
+                    <i class="far fa-star"></i>
+                  {% endif %}
+                {% endfor %}
+              </p>
+            {% endif %}
+          </div>
+        </div>
+        {% empty %}
+        <p>Convide seus amigos, e compartilhem suas atividades entre si.</p>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="container">
       <h2>Jogos mais populares</h2>
       <div class="row">
         {% for game in popular_games %}
@@ -75,25 +105,6 @@
           />
           <div class="game-name">
             {{ game.name }}
-            <p class="game-price">USD $00</p>
-          </div>
-        </div>
-        {% empty %}
-        <p>Nenhum jogo popular encontrado.</p>
-        {% endfor %}
-      </div>
-
-      <h2>Mais vendidos</h2>
-      <div class="row">
-        {% for game in popular_games %}
-        <div class="col-2 game-item">
-          <img
-            src="{{ game.cover.url|default:'https://via.placeholder.com/90' }}"
-            alt="{{ game.name }}"
-          />
-          <div class="game-name">
-            {{ game.name }}
-            <p class="game-price">USD $00</p>
           </div>
         </div>
         {% empty %}

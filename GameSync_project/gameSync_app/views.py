@@ -8,13 +8,29 @@ from .models import Playlist, Wishlist, Owned, Logview
 from .services_itad import ITADAPI
 from .forms import LogviewForm, CustomUser
 from django.core.cache import cache
+from django.db.models import Q
 
 def index(request):
     igdb = IGDBAPI()
     popular_games = igdb.fetch_most_popular_games()
 
+    latest_activities = []
+
+    if request.user.is_authenticated:
+        # Obtém os IDs dos amigos
+        friends = request.user.following.all()
+        
+        # Obtém os últimos 6 registros de Logview dos amigos
+        latest_activities = Logview.objects.filter(user__in=friends).order_by('-logview_date')[:6]
+
+        # Obtém as capas dos jogos
+        for activity in latest_activities:
+            game = igdb.fetch_game_by_id(activity.game_id)
+            activity.cover_url = game['cover']['url'].replace('t_thumb', 't_cover_big') if 'cover' in game else None
+
     context = {
-        'popular_games': popular_games if popular_games else []
+        'popular_games': popular_games if popular_games else [],
+        'latest_activities': latest_activities
     }
     return render(request, 'index.html', context)
 
