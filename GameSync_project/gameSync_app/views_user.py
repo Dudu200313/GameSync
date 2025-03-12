@@ -3,6 +3,8 @@ from django.http import HttpResponse
 from django.contrib.auth import authenticate, login, logout, get_user_model
 from .forms import CustomUserCreationForm
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+#from .models import CustomUser 
 
 User = get_user_model()
 
@@ -10,12 +12,17 @@ def register(request):
     form = CustomUserCreationForm()
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
-    
+
     if form.is_valid():
-        form.save()
-        return HttpResponse('User registerd succesfully')            
+        user = form.save()
+        login(request, user)
+        messages.info('User registerd succesfully')
+        return redirect('index.html')            
     
     return render(request, 'register.html', {'form' : form})
+
+#def valid_user(form):
+     
     
 def user_login(request):
     if request.method == "POST":
