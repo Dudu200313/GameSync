@@ -24,7 +24,7 @@ h1 {
 }
 
 hr {
-  border: 1px solid #474A4E;
+  border: 1px solid #474a4e;
   margin: 30px;
 }
 
@@ -38,7 +38,6 @@ hr {
 
 .game-cover {
   flex: 1;
-  max-width: 45%;
 }
 
 .main-cover {
@@ -62,14 +61,14 @@ hr {
 
 .genres {
   display: inline-block;
-  background-color: #474A4E;
+  background-color: #474a4e;
   color: white;
-  padding: 10px;
-  border-radius: 10px;
+  padding: 5px;
+  border-radius: 20px;
   font-size: 14px;
   text-align: center;
   margin: 0 10px 10px 0;
-  width: 25%;
+  width: 28%;
   filter: drop-shadow(8px 5px 8px #2c2d30);
 }
 
@@ -80,13 +79,35 @@ hr {
   margin-bottom: 15px;
 }
 
-.buttons {
-  display: flex;
-  gap: 10px;
+.prices {
+  margin: 40px;
+  background-color: #2C3037;
+  border-radius: 15px;
+  color: white;
+  width: 40%;
+  filter: drop-shadow(8px 5px 8px #2c2d30);
 }
 
-.btn-favorite,
-.btn-notify {
+.prices h2 {
+  background-color: #1C1F24;
+  border-radius: 15px 15px 0 0;
+  padding: 10px;
+  font-size: 1.2em;
+  text-align: center;
+}
+
+.price-detail {
+  text-align: center;
+  border-radius: 5px;
+  padding: 0 0 10px 0;
+}
+
+.price-detail.unavailable {
+  background-color: #444;
+  font-style: italic;
+}
+
+.btn-all {
   padding: 10px 20px;
   background-color: #6d2e9c;
   color: white;
@@ -100,28 +121,23 @@ hr {
   transition: background-color 0.3s;
 }
 
-.btn-favorite:hover {
+.btn-all:hover, .btn2:hover{
   background-color: #4b2977;
 }
 
-.btn-notify:hover {
-  background-color: #4b2977;
-}
-
-.btn-favorite i,
-.btn-notify i {
+.btn-all i,
+.btn2 i {
   font-size: 16px;
 }
 
 .platform-box {
-  background-color: #474A4E;
-  color: white; 
+  background-color: #474a4e;
+  color: white;
   padding: 5px 10px;
-  border: 1px solid #1F1F20;
+  border: 1px solid #1f1f20;
   border-radius: 5px;
-  margin-right: 5px; 
   width: 20%;
-  text-align: center ;
+  text-align: center;
 }
 
 .game-images {
@@ -139,10 +155,16 @@ hr {
 
 .btn-group {
   display: flex;
-  gap: 10px; 
+  gap: 10px;
 }
 
-.btn-review, .btn-favorite {
+.the-btn{
+  display: flex;
+  justify-content: center;
+}
+
+.btn-review,
+.btn-all {
   padding: 8px 16px;
   border-radius: 5px;
   border: none;
@@ -151,7 +173,7 @@ hr {
 }
 
 .btn-review {
-  background-color: #4F5257;
+  background-color: #4f5257;
   color: white;
 }
 
@@ -167,7 +189,7 @@ hr {
 }
 
 .review-image img {
-  width: 60px; 
+  width: 60px;
   height: 60px;
   object-fit: cover;
 }
@@ -183,9 +205,23 @@ hr {
 }
 
 .review-box {
-  background-color: #474A4E;
+  background-color: #474a4e;
   padding: 20px;
   filter: drop-shadow(8px 5px 8px #2c2d30);
   border-radius: 0px 20px 20px 20px;
-  border: #1F1F20;
+  border: #1f1f20;
+}
+
+.btn2 {
+  width: 30%;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  background-color: #4f5257;
+  color: white;
+  filter: drop-shadow(8px 5px 8px #2c2d30);
+  margin: 0 10px 0 0;
+  padding: 8px 16px;
+  background-color: #6d2e9c;
 }

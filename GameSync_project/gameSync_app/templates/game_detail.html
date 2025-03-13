@@ -2,171 +2,169 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{{ name }}</title>
 
     {% load static %}
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="{% static 'gameSync_app/css/game-detail.css' %}" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet" />
 </head>
 
 <body>
     <div class="content-wrapper">
         <div class="game-layout">
-            <div class="game-cover">
-                <img src="{{ cover_url | default:'https://static.displate.com/857x1200/displate/2023-09-06/f3c79263da457bbb583755ac94e4492f_f011ee441d15175d8441d1779e676197.jpg' }}" alt="{{ name }}" class="main-cover" loading="lazy">
+            <div>
+                <img src="{{ cover_url | default:'https://static.displate.com/857x1200/displate/2023-09-06/f3c79263da457bbb583755ac94e4492f_f011ee441d15175d8441d1779e676197.jpg' }}"
+                    alt="{{ name }}" class="main-cover" loading="lazy" />
             </div>
-            <form method="POST">
-                {% csrf_token %}
-                <select  name="select_country" onchange="this.form.submit()">
-                    <option value="br" {% if selected_country == 'br' %}selected{% endif %}>Brazil</option>
-                    <option value="us" {% if selected_country == 'us' %}selected{% endif %}>United States</option>
-                </select>
-            </form>
+
             <div class="game-info">
                 <h1>{{ name }}</h1>
-                <p class="game-info-details">{{ developers }}, {{ first_release_date }}</p>
+                <p class="game-info-details">
+                    {{ developers }}, {{ first_release_date }}
+                </p>
                 <div>
                     {% for genre in genres %}
-                        <div class="genres">
-                            {{ genre }}
-                        </div>
+                    <div class="genres">{{ genre }}</div>
                     {% endfor %}
                 </div>
-                
-                <div class="genres-prince">
+
+                <p class="summary">{{ summary }}</p>
+
+                {% if user.is_authenticated %}
+                <div class="the-btn">
+                    <button class="btn2">
+                        <i class="fas fa-star mr-2"></i> Favoritar
+                    </button>
+                    <button class="btn2">
+                        <i class="fas fa-bell mr-2"></i> Notificar
+                    </button>
+                </div>
+
+                <hr />
+
+                <div class="prices">
+                    <h2>Preços</h2>
                     {% if itad_price %}
-                        Melhor preço: {{ itad_price.price }} - {{ itad_price.shop_name }}
+                    <div class="price-detail">
+                        <span>Melhor preço:</span>
+                        <br>
+                        {{ itad_price.price }} - {{ itad_price.shop_name }}
+                    </div>
                     {% else %}
-                        <p>Preço não disponível</p>
+                    <div class="price-detail unavailable">Indisponível</div>
                     {% endif %}
                 </div>
-                <p class="summary">{{ summary }}</p>
-                {% if user.is_authenticated %}
-                <div class="buttons">
-                    <button class="btn-favorite">
-                        <i class="fas fa-star"></i> Favoritar
-                    </button>
-                    <button class="btn-notify">
-                        <i class="fas fa-bell"></i> Notificar
-                    </button>
-                    <form action="{% url 'add_to_playlist' game_id=game_id game_name=name %}" method="post">
-                        {% csrf_token %}
-                        <button class="btn-favorite" type="submit">
-                            <i class="fas fa-plus"></i>Adicionar à Playlist
-                        </button>
-                    </form>
-                    <form action="{% url 'add_to_wishlist' game_id=game_id game_name=name %}" method="post">
-                        {% csrf_token %}
-                        <button class="btn-favorite" type="submit">
-                            <i class="fas fa-plus"></i>Adicionar à Wishlist
-                        </button>
-                    </form>
-                    <form action="{% url 'add_to_owned' game_id=game_id game_name=name %}" method="post">
-                        {% csrf_token %}
-                        <button class="btn-favorite" type="submit">
-                            <i class="fas fa-plus"></i>Adicionar à Owned
-                        </button>
-                    </form>
-                </div>
+
                 {% else %}
-                <p><a href="{% url 'login' %}">Faça login</a> para deixar uma review.</p>
+                <p>
+                    <a href="{% url 'login' %}">Faça login</a> para deixar uma review.
+                </p>
                 {% endif %}
             </div>
         </div>
 
+        <div>
+            <form action="{% url 'add_to_playlist' game_id=game_id game_name=name %}" method="post">
+                {% csrf_token %}
+                <button class="btn-all mb-3" type="submit">
+                    <i class="fas fa-plus"></i>Adicionar à Playlist
+                </button>
+            </form>
+            <form action="{% url 'add_to_wishlist' game_id=game_id game_name=name %}" method="post">
+                {% csrf_token %}
+                <button class="btn-all mb-3" type="submit">
+                    <i class="fas fa-plus"></i>Adicionar à Wishlist
+                </button>
+            </form>
+            <form action="{% url 'add_to_owned' game_id=game_id game_name=name %}" method="post">
+                {% csrf_token %}
+                <button class="btn-all mb-3" type="submit">
+                    <i class="fas fa-plus"></i>Adicionar à Owned
+                </button>
+            </form>
+        </div>
+
+
         <h2>Platforms</h2>
         <div>
             {% for platform in platforms %}
-                <p class="platform-box">
-                    {{ platform }}
-                </p>
+            <p class="platform-box">{{ platform }}</p>
             {% endfor %}
         </div>
-        
-        <br>
-        <!---- 
+
+        <br />
         {% if related_games %}
         <h2>Same series:</h2>
         <div class="game-images">
-            {% for game in related_games %}
-            {% if game.cover %}
+            {% for game in related_games %} {% if game.cover %}
             <div class="game-item">
-                <a href="{% url 'game_detail' game.id %}"><img src="{{ game.cover.url }}" alt="{{ game.name }}" loading="lazy"></a>
+                <a href="{% url 'game_detail' game.id %}"><img src="{{ game.cover.url }}" alt="{{ game.name }}"
+                        loading="lazy" /></a>
             </div>
-            {% endif %}
-            {% endfor %}
+            {% endif %} {% endfor %}
         </div>
-        {% endif %}
-
-        {% if similar_games %}
+        {% endif %} {% if similar_games %}
         <h2>Similar games:</h2>
         <div class="game-images">
-            {% for game in similar_games %}
-            {% if game.cover %}
+            {% for game in similar_games %} {% if game.cover %}
             <div class="game-item">
-                <a href="{% url 'game_detail' game.id %}"><img src="{{ game.cover.url }}" alt="{{ game.name }}" width="100" loading="lazy"></a>
+                <a href="{% url 'game_detail' game.id %}"><img src="{{ game.cover.url }}" alt="{{ game.name }}"
+                        width="100" loading="lazy" /></a>
             </div>
-            {% endif %}
-            {% endfor %}
+            {% endif %} {% endfor %}
         </div>
-        {% endif %}
-        --->
+        {% endif %} {% if user.is_authenticated %}
+        <h2>Deixe sua Review</h2>
+        <form method="post">
+            {% csrf_token %} {{ form.as_p }}
 
-    {% if user.is_authenticated %}
-    <h2>Deixe sua Review</h2>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        
-        <div class="mb-1">
-            Você recomendaria esse jogo?
-        </div>
-        <div class="btn-group">
-            <button class="btn-review" type="submit"><i class="fas fa-thumbs-up"></i> Sim</button> 
-            <button class="btn-review" type="submit"><i class="fas fa-thumbs-down"></i> Não</button> 
-            <button class="btn-favorite" type="submit">Enviar Review</button>
-        </div>
-    </form>
-    {% else %}
-    <p><a href="{% url 'login' %}">Faça login</a> para deixar uma review.</p>
-    {% endif %}
-        
-
-    <hr>
-
-    <h2>Reviews</h2>
-    {% for review in logviews %}
-    {% if review.text %}
-    <div class="review-container">
-        <div class="review-image">
-            <img src="{% static 'imgs/user-placeholder.jpg' %}" alt="User" />
-        </div>
-
-        <div class="review-content">
-            <div class="review-header">
-                <strong>{{ review.user.username }}</strong>  
-                <span class="ml-2">⭐ {{ review.rating }}/5.0</span>
-            </div>
-            <div class="review-box">
-                <p>{{ review.text }}</p>
-            </div>
-            <div class="mt-3 mb-3">
-                O que você achou dessa análise?
-                <button class="btn-favorite mt-2">
-                    <i class="fas fa-heart"></i> Gostei
+            <div class="mb-1">Você recomendaria esse jogo?</div>
+            <div class="btn-group">
+                <button class="btn-review" type="submit">
+                    <i class="fas fa-thumbs-up"></i> Sim
                 </button>
+                <button class="btn-review" type="submit">
+                    <i class="fas fa-thumbs-down"></i> Não
+                </button>
+                <button class="btn-all" type="submit">Enviar Review</button>
+            </div>
+        </form>
+        {% else %}
+        <p><a href="{% url 'login' %}">Faça login</a> para deixar uma review.</p>
+        {% endif %}
+
+        <hr />
+
+        <h2>Reviews</h2>
+        {% for review in logviews %} {% if review.text %}
+        <div class="review-container">
+            <div class="review-image">
+                <img src="{% static 'imgs/user-placeholder.jpg' %}" alt="User" />
+            </div>
+
+            <div class="review-content">
+                <div class="review-header">
+                    <strong>{{ review.user.username }}</strong>
+                    <span class="ml-2">⭐ {{ review.rating }}/5.0</span>
+                </div>
+                <div class="review-box">
+                    <p>{{ review.text }}</p>
+                </div>
+                <div class="mt-3 mb-3">
+                    O que você achou dessa análise?
+                    <button class="btn-all mt-2">
+                        <i class="fas fa-heart"></i> Gostei
+                    </button>
+                </div>
             </div>
         </div>
-    </div>
-    {% endif %}
-
-    {% empty %}
-    <p>Sem reviews ainda. Seja o primeiro a avaliar!</p>
-    {% endfor %}
-
+        {% endif %} {% empty %}
+        <p>Sem reviews ainda. Seja o primeiro a avaliar!</p>
+        {% endfor %}
     </div>
 </body>
+
 </html>
