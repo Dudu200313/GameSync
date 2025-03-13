@@ -1,5 +1,5 @@
-from django.urls import path 
-
+from django.urls import path,include
+from .views import user_logout 
 from . import views 
 from . import views_user
 from .views import add_to_playlist, add_to_wishlist, add_to_owned
@@ -21,6 +21,6 @@ urlpatterns = [
     path('user/<int:user_id>/', views.tela_usuario, name='tela_usuario_other'),
     path('follow/<int:user_id>/', views_user.follow_unfollow, name='follow_unfollow'),
     path('search/', views.search_results, name='search_results'),
+    path('logout/', user_logout, name='logout'), 
 ]
-
 #as aspas definem a rota / na view, se for fazia vai ser meio que a home

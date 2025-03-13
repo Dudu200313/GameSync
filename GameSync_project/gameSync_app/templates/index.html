@@ -35,8 +35,22 @@
         <span class="nav-item">
           <a href="">Games</a>
         </span>
+             
+ <div class="ml-5">
+      <span>
+        {{user.username}}
+      </span>
+    </div>
+    {% if request.user.is_authenticated %}
+    <form action="{% url 'logout' %}" method="post" >
+      {% csrf_token %}
+      <button type="submit" class="btn-logout">Sair</button>
+    </form>
+    {% endif %}
       </div>
     </div>
+   
+
   </div>
 
   <div class="image-container">
@@ -59,7 +73,7 @@
     <div class="row">
       {% for activity in latest_activities %}
       <div class="col-2 activity-item">
-        <a href="{% url 'game_detail' activity.game_id %}"><img src="{{ activity.cover_url|default:'https://via.placeholder.com/90' }}" alt="Capa do jogo" /></a>
+        <img src="{{ activity.cover_url|default:'https://via.placeholder.com/90' }}" alt="Capa do jogo" />
         <div class="activity-info">
           <div class="activity-name">
             <p><strong>{{ activity.user.username }}</strong> jogou</p>
@@ -87,7 +101,7 @@
     <div class="row">
       {% for game in popular_games %}
       <div class="col-2 game-item">
-        <a href="{% url 'game_detail' game.id %}"><img src="{{ game.cover.url|default:'https://via.placeholder.com/90' }}" alt="{{ game.name }}" /></a>
+        <img src="{{ game.cover.url|default:'https://via.placeholder.com/90' }}" alt="{{ game.name }}" />
         <div class="game-name">
           {{ game.name }}
         </div>

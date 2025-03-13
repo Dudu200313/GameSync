@@ -9,6 +9,8 @@ from .services_itad import ITADAPI
 from .forms import LogviewForm, CustomUser
 from django.core.cache import cache
 from django.db.models import Q
+from django.contrib.auth import logout
+from django.shortcuts import redirect
 
 def index(request):
     igdb = IGDBAPI()
@@ -180,3 +182,9 @@ def tela_usuario(request, user_id=None):
         user = request.user 
 
     return render(request, 'tela_usuario.html', {'user': user})
+
+
+def user_logout(request):
+    logout(request)
+    return redirect('/') 
+    
