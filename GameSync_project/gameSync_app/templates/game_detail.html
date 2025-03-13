@@ -15,11 +15,11 @@
 <body>
     <div class="content-wrapper">
         <div class="game-layout">
-            <div>
+            <div class="game-cover">
                 <img src="{{ cover_url | default:'https://static.displate.com/857x1200/displate/2023-09-06/f3c79263da457bbb583755ac94e4492f_f011ee441d15175d8441d1779e676197.jpg' }}"
                     alt="{{ name }}" class="main-cover" loading="lazy" />
             </div>
-
+        
             <div class="game-info">
                 <h1>{{ name }}</h1>
                 <p class="game-info-details">
@@ -30,40 +30,46 @@
                     <div class="genres">{{ genre }}</div>
                     {% endfor %}
                 </div>
-
+        
                 <p class="summary">{{ summary }}</p>
+                
+                <hr/>
 
                 {% if user.is_authenticated %}
                 <div class="the-btn">
                     <button class="btn2">
                         <i class="fas fa-star mr-2"></i> Favoritar
                     </button>
-                    <button class="btn2">
-                        <i class="fas fa-bell mr-2"></i> Notificar
-                    </button>
                 </div>
-
-                <hr />
-
-                <div class="prices">
-                    <h2>Preços</h2>
-                    {% if itad_price %}
-                    <div class="price-detail">
-                        <span>Melhor preço:</span>
-                        <br>
-                        {{ itad_price.price }} - {{ itad_price.shop_name }}
-                    </div>
-                    {% else %}
-                    <div class="price-detail unavailable">Indisponível</div>
-                    {% endif %}
-                </div>
-
                 {% else %}
                 <p>
                     <a href="{% url 'login' %}">Faça login</a> para deixar uma review.
                 </p>
                 {% endif %}
             </div>
+        
+            <div class="prices-container">
+                <div class="prices">
+                    <h2>Preços</h2>
+                    {% if itad_price %}
+                    <div class="price-detail">
+                        <span>Melhor preço:</span>
+                        <br>
+                        <span style="color: #E7DAA6; font-weight: bold;">R$ {{ itad_price.price }} - {{ itad_price.shop_name }}</span>
+                    </div>
+                    {% else %}
+                    <div class="price-detail unavailable">Indisponível</div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+                        
+        <h2>Platforms</h2>
+        <div>
+            {% for platform in platforms %}
+            <p class="platform-box">{{ platform }}</p>
+            {% endfor %}
         </div>
 
         <div>
@@ -85,14 +91,6 @@
                     <i class="fas fa-plus"></i>Adicionar à Owned
                 </button>
             </form>
-        </div>
-
-
-        <h2>Platforms</h2>
-        <div>
-            {% for platform in platforms %}
-            <p class="platform-box">{{ platform }}</p>
-            {% endfor %}
         </div>
 
         <br />
