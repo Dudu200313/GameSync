@@ -1,116 +1,102 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Gamesync - Homepage</title>
 
-    {% load static %}
-    <link
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-    <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="{% static 'gameSync_app/css/index.css' %}" />
-  </head>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gamesync - Homepage</title>
 
-  <body>
-    <div class="nav-container">
-      <div class="search-and-links">
-        <i class="fa fa-solid fa-gamepad fa-3x"></i>
-        <h3>GameSync</h3>
-        <form
-          action="{% url 'search_results' %}"
-          method="GET"
-          class="search-form"
-        >
-          <div class="form-group d-flex">
-            <div class="input-container">
-              <input
-                type="text"
-                name="q"
-                class="form-control"
-                placeholder="Buscar jogos..."
-                required
-              />
-              <button type="submit" class="search-icon-btn">
-                <i class="fa fa-search search-icon"></i>
-              </button>
-            </div>
-          </div>
-        </form>
+  {% load static %}
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="{% static 'gameSync_app/css/index.css' %}" />
+</head>
 
-        <div class="nav-links">
-          <span class="nav-item">
-            <a href="">Lista</a>
-          </span>
-          <span class="nav-item">
-            <a href="">Games</a>
-          </span>
-        </div>
-      </div>
-    </div>
-
-    <div class="welcometext">
-      <span>
-        Explore as melhores promoções de jogos, listas imperdíveis e os
-        lançamentos mais esperados no GameSync!
-      </span>
-      <span class="mb-5">
-        <b>Fique por dentro de todas as novidades do mundo dos games.</b>
-      </span>
-    </div>
-
-    <div class="container">
-      <h2>Atividades recentes dos seus amigos</h2>
-      <div class="row">
-        {% for activity in latest_activities %}
-        <div class="col-2 activity-item">
-          <img
-            src="{{ activity.cover_url|default:'https://via.placeholder.com/90' }}"
-            alt="Capa do jogo"
-          />
-          <div class="activity-info">
-            <div class="activity-name"><p><strong>{{ activity.user.username }}</strong> jogou</p></div>
-            {% if activity.rating %}
-              <p>Avaliação:
-                {% for i in "12345" %}
-                  {% if forloop.counter <= activity.rating %}
-                    <i class="fas fa-star"></i>
-                  {% else %}
-                    <i class="far fa-star"></i>
-                  {% endif %}
-                {% endfor %}
-              </p>
-            {% endif %}
+<body>
+  <div class="nav-container">
+    <div class="search-and-links">
+      <i class="fa fa-solid fa-gamepad fa-3x"></i>
+      <h3>GameSync</h3>
+      <form action="{% url 'search_results' %}" method="GET" class="search-form">
+        <div class="form-group d-flex">
+          <div class="input-container">
+            <input type="text" name="q" class="form-control" placeholder="Buscar jogos..." required />
+            <button type="submit" class="search-icon-btn">
+              <i class="fa fa-search search-icon"></i>
+            </button>
           </div>
         </div>
-        {% empty %}
-        <p>Convide seus amigos, e compartilhem suas atividades entre si.</p>
-        {% endfor %}
-      </div>
-    </div>
+      </form>
 
-    <div class="container">
-      <h2>Jogos mais populares</h2>
-      <div class="row">
-        {% for game in popular_games %}
-        <div class="col-2 game-item">
-          <img
-            src="{{ game.cover.url|default:'https://via.placeholder.com/90' }}"
-            alt="{{ game.name }}"
-          />
-          <div class="game-name">
-            {{ game.name }}
-          </div>
-        </div>
-        {% empty %}
-        <p>Nenhum jogo popular encontrado.</p>
-        {% endfor %}
+      <div class="nav-links">
+        <span class="nav-item">
+          <a href="">Lista</a>
+        </span>
+        <span class="nav-item">
+          <a href="">Games</a>
+        </span>
       </div>
     </div>
-  </body>
+  </div>
+
+  <div class="image-container">
+    <img src="{% static 'imgs/gameplay-index.jpg' %}" alt="Imagem centralizada" class="blur-image" />
+    <div class="overlay-text">
+      <div class="welcometext">
+        <span>
+          Explore as melhores promoções de jogos, listas imperdíveis e os
+          lançamentos mais esperados no GameSync!
+        </span>
+        <span class="mb-5">
+          <b>Fique por dentro de todas as novidades do mundo dos games.</b>
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <h2 style="text-align: left !important;"><i class="fas fa-user-friends"></i> Atividades recentes de amigos</h2>
+    <div class="row">
+      {% for activity in latest_activities %}
+      <div class="col-2 activity-item">
+        <img src="{{ activity.cover_url|default:'https://via.placeholder.com/90' }}" alt="Capa do jogo" />
+        <div class="activity-info">
+          <div class="activity-name">
+            <p><strong>{{ activity.user.username }}</strong> jogou</p>
+          </div>
+          {% if activity.rating %}
+          <p>Avaliação:
+            {% for i in "12345" %}
+            {% if forloop.counter <= activity.rating %} <i class="fas fa-star"></i>
+              {% else %}
+              <i class="far fa-star"></i>
+              {% endif %}
+              {% endfor %}
+          </p>
+          {% endif %}
+        </div>
+      </div>
+      {% empty %}
+      <span class="mb-4 ml-3">Convide seus amigos, e compartilhem suas atividades entre si.</span>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="container">
+    <h2 style="text-align: left !important;"><i class="fab fa-hotjar"></i> Jogos mais populares</h2>
+    <div class="row">
+      {% for game in popular_games %}
+      <div class="col-2 game-item">
+        <img src="{{ game.cover.url|default:'https://via.placeholder.com/90' }}" alt="{{ game.name }}" />
+        <div class="game-name">
+          {{ game.name }}
+        </div>
+      </div>
+      {% empty %}
+      <p>Nenhum jogo popular encontrado.</p>
+      {% endfor %}
+    </div>
+  </div>
+</body>
+
 </html>
