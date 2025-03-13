@@ -32,6 +32,7 @@ hr {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
+  flex-wrap: wrap;
   gap: 30px;
   margin-bottom: 30px;
 }
@@ -86,8 +87,8 @@ hr {
 }
 
 .prices {
+  flex: 1;
   width: 70%;
-  max-width: 300px;
   background-color: #2C3037;
   border-radius: 15px;
   color: white;
@@ -161,8 +162,10 @@ hr {
 
 .btn-group {
   display: flex;
-  gap: 10px;
+  gap: 10px;  
+  margin-top: 10px; 
 }
+
 
 .the-btn{
   display: flex;
@@ -230,4 +233,13 @@ hr {
   margin: 0 10px 0 0;
   padding: 8px 16px;
   background-color: #6d2e9c;
+}
+
+.form-control {
+  width: 100%;
+  background-color: #474A4E;
+  padding: 10px;
+  border-radius: 25px 25px 0px 25px;
+  border: 1px solid #1f1f20;
+  margin: 0 0 10px 0;
 }

@@ -28,3 +28,19 @@ class LogviewForm(forms.ModelForm):
             'text': forms.Textarea(attrs={'rows': 3}),
         }
 
+class LogviewForm(forms.ModelForm):
+    class Meta:
+        model = Logview
+        fields = ['text', 'rating']
+        labels = {
+            'text': '',
+        }
+        widgets = {
+            'rating': forms.Select(
+                choices=[(x * 0.5, str(x * 0.5)) for x in range(1, 11)],
+                attrs={'class': 'form-control-rating'}
+            ),
+            'text': forms.Textarea(
+                attrs={'rows': 3, 'class': 'form-control', 'placeholder': 'Digite seu comentário...'}
+            ),
+        }
