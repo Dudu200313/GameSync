@@ -16,9 +16,14 @@ def register(request):
     if form.is_valid():
         user = form.save()
         login(request, user)
-        messages.info('User registerd succesfully')
-        return redirect('index.html')            
-    
+        messages.success(request, 'usuário registrado com sucesso')
+        return redirect('index')     
+           
+    else:
+        for field, errors in form.errors.items():
+            for error in errors:
+                messages.error(request, f'algo deu errado no campo {field} : {error}')
+
     return render(request, 'register.html', {'form' : form})
 
 #def valid_user(form):
@@ -51,3 +56,4 @@ def follow_unfollow(request, user_id):
             request.user.following.add(target_user)  # Seguir
 
     return redirect('tela_usuario_other', user_id=user_id)
+
