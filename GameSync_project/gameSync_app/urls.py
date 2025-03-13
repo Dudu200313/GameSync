@@ -17,8 +17,8 @@ urlpatterns = [
     path('diary/', views.user_diary, name='user_diary'),
     path('wishlist/', views.user_wishlist, name='user_wishlist'),
     path('owned/', views.user_owned, name='user_owned'),
-    path('tela_usuario/', views.tela_usuario, name='tela_usuario'),
-    path('tela_usuario/<int:user_id>/', views.tela_usuario, name='tela_usuario_other'),
+    path('user/', views.tela_usuario, name='tela_usuario'),
+    path('user/<int:user_id>/', views.tela_usuario, name='tela_usuario_other'),
     path('follow/<int:user_id>/', views_user.follow_unfollow, name='follow_unfollow'),
     path('search/', views.search_results, name='search_results'),
 ]

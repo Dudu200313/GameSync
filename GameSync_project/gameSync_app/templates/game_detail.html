@@ -13,6 +13,41 @@
 </head>
 
 <body>
+    <div class="nav-container">
+        <div class="search-and-links">
+          <i class="fa fa-solid fa-gamepad fa-3x"></i>
+          <h3>GameSync</h3>
+          <form
+            action="{% url 'search_results' %}"
+            method="GET"
+            class="search-form"
+          >
+            <div class="form-group d-flex">
+              <div class="input-container">
+                <input
+                  type="text"
+                  name="q"
+                  class="form-search-input"
+                  placeholder="Buscar jogos..."
+                  required
+                />
+                <button type="submit" class="search-icon-btn">
+                  <i class="fa fa-search search-icon"></i>
+                </button>
+              </div>
+            </div>
+          </form>
+  
+          <div class="nav-links">
+            <span class="nav-item">
+              <a href="">Lista</a>
+            </span>
+            <span class="nav-item">
+              <a href="">Games</a>
+            </span>
+          </div>
+        </div>
+    </div>
     <div class="content-wrapper">
         <div class="game-layout">
             <div class="game-cover">

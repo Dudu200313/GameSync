@@ -44,7 +44,7 @@ class IGDBAPI:
 
                 # Buscar detalhes dos jogos similares e ajustar imagens
                 if 'similar_games' in game and game['similar_games']:
-                    game['similar_games'] = game['similar_games']
+                    game['similar_games'] = game['similar_games'][:6]
                     for similar_game in game['similar_games']:
                         if "cover" in similar_game and "url" in similar_game["cover"]:
                             similar_game["cover"]["url"] = similar_game["cover"]["url"].replace("t_thumb", "t_cover_big")
@@ -54,7 +54,7 @@ class IGDBAPI:
             print(f"Error: {response.status_code} - {response.text}")
             return None
 
-    def fetch_games_by_series(self, series_id, game_id, limit=4):
+    def fetch_games_by_series(self, series_id, game_id, limit=7):
         url = f'{self.base_url}games'
         query = f'fields name, cover.url; limit {limit}; sort total_rating desc; where collections = {series_id};'
         response = requests.post(url, headers=self.headers, data=query)
@@ -65,7 +65,7 @@ class IGDBAPI:
             if game_id:
                 games = [game for game in games if game['id'] != game_id]
 
-            if len(games) == 4:
+            if len(games) == 7:
                 games.pop()
 
             # Ajustar todas as capas para formato pôster
