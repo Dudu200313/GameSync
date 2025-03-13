@@ -39,7 +39,7 @@
             {% for game in diary %}
             <li class="game-item">
                 {% if game.cover_url %}
-                 <img src="{{ game.cover_url }}" alt="{{ game.game_name }}">
+                <img src="{{ game.cover_url }}" alt="{{ game.game_name }}">
                 {% endif %}
                 <div class="game-info">
                     <div class="game-name">{{ game.game_name }}</div>
@@ -130,28 +130,28 @@
         display: flex;
         flex-wrap: wrap;
         gap: 10px;
-        justify-content: space-between;
+        justify-content: flex-start;
         padding: 0;
         list-style: none;
         width: 100%;
     }
 
     .game-item {
-        width: calc((100% - 60px) / 6);
-        /* Garante 6 itens por linha */
+        flex: 1 1 180px; /* Faz os itens crescerem uniformemente */
+        max-width: 180px;
         text-align: center;
-        margin-bottom: 30px;
+        margin-bottom: 10px;
         background-color: #1c1f24;
-        padding-bottom: 5px;
         display: flex;
         flex-direction: column;
+        padding-bottom: 5px;
         border-radius: 10px;
     }
 
     .game-item img {
         width: 100%;
         height: 200px;
-        object-fit: fill;
+        object-fit: cover;
         border-radius: 0px;
     }
 
@@ -170,7 +170,7 @@
         text-align: center;
         padding: 8px;
         margin-top: 4px;
-        
+
     }
 
     .game-date {
