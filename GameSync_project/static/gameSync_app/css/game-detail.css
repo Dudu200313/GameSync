@@ -27,6 +27,26 @@ body {
   cursor: pointer;
 }
 
+.ml-5 {
+  display: flex;
+  align-items: center;
+  gap: 90px;
+  border-radius: 16px 10px;
+}
+.btn-logout{
+  width: 100%;
+  background-color: #6d2e9c;
+  border: none;
+  border-radius: 25px;
+  justify-content: center;
+  align-items: center;
+  padding: 5px 20px; /* Aumentei o segundo valor */
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.3); 
+  cursor: pointer;
+  color: white; 
+  text-align: center
+}
+
 .search-and-links {
   display: flex;
   justify-content: center;
